@@ -1,17 +1,17 @@
 <template>
   <v-app>
     <v-main>
-      <AuthentiflowChat />
+      <TicketSwift />
     </v-main>
   </v-app>
 </template>
 
 <script>
-import AuthentiflowChat from './components/AuthentiflowChat.vue'
+import TicketSwift from './components/TicketSwift.vue'
 export default {
   name: 'App',
   components: {
-    AuthentiflowChat
+    TicketSwift
   }
 }
 </script>
