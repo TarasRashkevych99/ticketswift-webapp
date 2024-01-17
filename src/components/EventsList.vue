@@ -2,7 +2,7 @@
   <li v-for="event in events">
     <v-container>
       <v-col cols="12">
-        <v-card href="https://youtube.com">
+        <v-card :href="`http://localhost:3000/events/${event._id}`">
           <div class="d-flex flex-no-wrap">
             <v-avatar class="ma-3" size="150" rounded="lg">
               <v-img src="https://cdn.vuetifyjs.com/images/cards/halcyon.png"></v-img>
