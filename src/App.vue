@@ -2,16 +2,20 @@
   <v-app>
     <v-main>
       <TicketSwift />
+      <MeteoCard />
     </v-main>
   </v-app>
 </template>
 
+
 <script>
 import TicketSwift from './components/TicketSwift.vue'
+import MeteoCard from './components/Meteo.vue'
 export default {
   name: 'App',
   components: {
-    TicketSwift
+    TicketSwift,
+    MeteoCard
   }
 }
 </script>
