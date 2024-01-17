@@ -10,7 +10,7 @@
                 <v-col class="text-h3" cols="8"> {{ temperature }} </v-col>
 
                 <v-col cols="2" class="text-right">
-                    <v-icon color="blue" :icon="iconCode[weather]" size="88"></v-icon>
+                    <v-icon :color="iconColor[weather]" :icon="iconCode[weather]" size="88"></v-icon>
                 </v-col>
             </v-row>
         </v-card-text>
@@ -37,7 +37,7 @@ export default {
             'Clear sky': 'mdi-weather-sunny',
             'Mainly clear': 'mdi-weather-sunny',
             'Partly cloudy': 'mdi-weather-cloudy',
-            'Overcast' : 'mdi-weather-cloudy',
+            'Overcast': 'mdi-weather-cloudy',
             'Fog': 'mdi-weather-fog',
             'Drizzle': 'mdi-weather-rainy',
             'Freezing Drizzle': 'mdi-weather-snowy-rainy',
@@ -48,30 +48,38 @@ export default {
             'Rain showers': 'mdi-weather-pouring',
             'Thunderstorm': 'mdi-weather-lightning',
         },
+        iconColor: {
+            'Clear sky': 'yellow',
+            'Mainly clear': 'yellow',
+            'Partly cloudy': 'grey',
+            'Overcast': 'grey',
+            'Fog': 'grey',
+            'Drizzle': 'blue',
+            'Freezing Drizzle': '#B7E9F7',
+            'Rain': 'blue',
+            'Freezing Rain': '#B7E9F7',
+            'Snow fall': '#B7E9F7',
+            'Snow grains': '#B7E9F7',
+            'Rain showers': 'blue',
+            'Thunderstorm': 'grey',
+        },
         expand: false,
         time: 0,
         temperature: '',
         precipitation: '',
         weather: '',
-        imageList: [
-            { id: 1, url: '../resources/images/meteo/thunderstorm.png' },
-            //{ id: 2, url: 'image2.jpg' },
-            // ... more images
-        ],
     }),
     async mounted() {
-        this.getMeteo({ date: '2024-01-19', lat: 46.1228, lon: 12.2051 });
+        this.getMeteo({ date: '2024-01-18', lat: 46.1228, lon: 12.2051 });
     },
     methods: {
         getMeteo: async function (params) {
             try {
                 let res = await getWeather(params);
                 console.log(res['max_temperature'] + "/" + res['min_temperature'] + "" + res.units.temperature);
-                this.temperature = res['max_temperature'] + "/" + res['min_temperature'] + "" + res.units.temperature;
+                this.temperature = res['min_temperature'] + "/" + res['max_temperature'] + "" + res.units.temperature;
                 this.precipitation = res.precipitation_probability + res.units.probability;
                 this.weather = res.weather;
-                //console.log(this.iconCode[this.weather]);
-                //console.log(res);
             }
             catch (err) {
                 console.log(err)
