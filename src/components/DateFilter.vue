@@ -17,6 +17,7 @@ export default {
   computed: {},
   async mounted() {
     this.currentDate = new Date()
+    this.currentDate.setDate(this.currentDate.getDate() - 1)
     this.offset = this.currentDate.getTimezoneOffset()
     this.currentDate = new Date(this.currentDate.getTime() - this.offset * 60 * 1000)
     this.currentDate.toISOString().split('T')[0]

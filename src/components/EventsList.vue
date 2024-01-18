@@ -1,7 +1,21 @@
 <template>
-  <li v-for="event in events">
-    <v-container>
-      <v-col cols="12">
+  <v-container>
+    <v-col cols="12">
+      <v-card class="mx-auto" color="grey-lighten-5" max-width="400">
+        <v-card-text>
+          <v-text-field
+            v-model="search"
+            density="compact"
+            variant="solo"
+            label="Search templates"
+            single-line
+            hide-details
+            clearable
+            @input="eventSearch()"
+          ></v-text-field>
+        </v-card-text>
+      </v-card>
+      <div v-for="event in events" :key="event._id">
         <v-card :href="`http://localhost:3000/events/${event._id}`">
           <div class="d-flex flex-no-wrap">
             <v-avatar class="ma-3" size="150" rounded="lg">
@@ -30,35 +44,43 @@
             </div>
           </div>
         </v-card>
-      </v-col>
-    </v-container>
-  </li>
+        <br />
+      </div>
+    </v-col>
+  </v-container>
 </template>
 
 <script>
 import axios from 'axios'
+import _ from 'lodash'
 
 export default {
   name: 'EventsList',
   data: () => ({
     events: null,
-    eventsResponse: null
+    eventsResponse: null,
+    search: null
   }),
   computed: {},
-  async mounted() {
-    this.eventsResponse = await axios
-      .get('http://localhost:5000/api/events', {
-        withCredentials: true
-      })
-      .catch((err) => {
-        console.log(err)
-      })
-    this.events = this.eventsResponse.data
-  },
+  async mounted() {},
   methods: {
     dateToString(date) {
       const newDate = new Date(date)
       return newDate.toDateString()
+    },
+    eventSearch: _.debounce(async function () {
+      console.log(this.search)
+      await this.getEvents()
+    }, 400),
+    async getEvents() {
+      this.eventsResponse = await axios
+        .get(`http://localhost:5000/api/events?keyword=${this.search}`, {
+          withCredentials: true
+        })
+        .catch((err) => {
+          console.log(err)
+        })
+      this.events = this.eventsResponse.data
     }
   }
 }

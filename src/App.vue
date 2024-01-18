@@ -1,7 +1,8 @@
 <template>
   <v-app>
     <v-main>
-      <TagsList />
+      <EventsList />
+      <DateFilter />
       <TicketSwift />
     </v-main>
   </v-app>
@@ -11,12 +12,14 @@
 import TicketSwift from './components/TicketSwift.vue'
 import EventsList from './components/EventsList.vue'
 import TagsList from './components/TagsList.vue'
+import DateFilter from './components/DateFilter.vue'
 export default {
   name: 'App',
   components: {
     EventsList,
     TicketSwift,
-    TagsList
+    TagsList,
+    DateFilter
   }
 }
 </script>

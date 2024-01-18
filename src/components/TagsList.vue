@@ -1,9 +1,7 @@
 <template>
   <div class="d-flex justify-center ga-2">
     <v-chip> {{ mainTag }} </v-chip>
-    <li v-for="tag in secondaryTags">
-      <v-chip> {{ tag }} </v-chip>
-    </li>
+    <v-chip v-for="tag in secondaryTags" :key="tag"> {{ tag }} </v-chip>
   </div>
 </template>
 
