@@ -59,10 +59,12 @@ export default {
   data: () => ({
     events: null,
     eventsResponse: null,
-    search: null
+    search: ''
   }),
   computed: {},
-  async mounted() {},
+  async mounted() {
+    await this.getEvents()
+  },
   methods: {
     dateToString(date) {
       const newDate = new Date(date)

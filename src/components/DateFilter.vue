@@ -73,12 +73,12 @@ export default {
       if (date == undefined) {
         return 'not selected'
       }
-      console.log(date)
+      //console.log(date)
       this.offset = date.getTimezoneOffset()
       date = new Date(date.getTime() - this.offset * 60 * 1000)
       date = date.toISOString().split('T')[0]
       date = date.split('-').reverse().join('-')
-      console.log(date)
+      //console.log(date)
       return date
     }
   }
