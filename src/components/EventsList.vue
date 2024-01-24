@@ -7,7 +7,7 @@
             v-model="search"
             density="compact"
             variant="solo"
-            label="Search templates"
+            label="Search events"
             single-line
             hide-details
             clearable
