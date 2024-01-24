@@ -1,18 +1,20 @@
 <template>
   <v-app>
     <v-main>
-      <TicketSwift />
+      <EventsList />
+      <DateFilter />
     </v-main>
   </v-app>
 </template>
 
 <script>
-import TicketSwift from './TicketSwift.vue'
-
+import EventsList from './components/EventsList.vue'
+import DateFilter from './components/DateFilter.vue'
 export default {
   name: 'App',
   components: {
-    TicketSwift
+    EventsList,
+    DateFilter
   }
 }
 </script>
