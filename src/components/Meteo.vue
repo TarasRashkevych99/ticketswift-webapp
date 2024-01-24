@@ -7,7 +7,7 @@
 
         <v-card-text class="py-0">
             <v-row align="center" no-gutters>
-                <v-col class="text-h3" cols="8"> {{ temperature }} </v-col>
+                <v-col class="temperature" cols="8"> {{ temperature }} </v-col>
 
                 <v-col cols="2" class="text-right">
                     <v-icon :color="iconColor[weather]" :icon="iconCode[weather]" size="88"></v-icon>
@@ -16,9 +16,9 @@
         </v-card-text>
 
         <div class="d-flex py-3 justify-space-between">
-            <!--<v-list-item density="compact" prepend-icon="mdi-weather-windy">
+            <v-list-item density="compact" prepend-icon="mdi-weather-windy">
                 <v-list-item-subtitle>123 km/h</v-list-item-subtitle>
-            </v-list-item>-->
+            </v-list-item>
 
             <v-list-item density="compact" prepend-icon="mdi-weather-pouring">
                 <v-list-item-subtitle>{{ precipitation }}</v-list-item-subtitle>
@@ -70,7 +70,7 @@ export default {
         weather: '',
     }),
     async mounted() {
-        this.getMeteo({ date: '2024-01-18', lat: 46.1228, lon: 12.2051 });
+        this.getMeteo({ date: '2024-01-24', lat: 46.14675, lon: 12.21324 });
     },
     methods: {
         getMeteo: async function (params) {
@@ -91,3 +91,9 @@ export default {
     }
 }
 </script>
+
+<style>
+.temperature {
+    font-size: 2.7rem;
+}
+</style>
