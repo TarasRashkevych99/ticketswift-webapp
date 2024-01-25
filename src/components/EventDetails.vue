@@ -6,8 +6,8 @@
         <h1>Dettagli dell'evento {{ $route.params.eventId }}</h1>
 
         <h3>Name: {{ this.event?.name }}</h3>
-        <!-- <MeteoCard :message="event"></MeteoCard> -->
-        <MeteoCard :message="'2024-01-26'"></MeteoCard>
+        <!-- <MeteoCard :message="'2024-01-26'" :lat="46.14675" :lon="12.21324"></MeteoCard> -->
+        <MeteoCard v-if="this.lat" :message="'2024-01-26'" :lat="this.lat" :lon="this.lon"></MeteoCard>
         <!-- Altri dettagli dell'evento possono essere aggiunti qui -->
     </div>
 </template>
@@ -21,7 +21,9 @@ export default {
     name: 'TicketSwift',
     data: () => ({
         res: null,
-        event: null
+        event: null,
+        lat: null,
+        lon: null,
     }),
     components: {
         MeteoCard
@@ -41,7 +43,9 @@ export default {
                     console.log(err)
                 })
             this.event = this.event.data?.[0];
-            console.log(this.event);
+            this.lat = this.event.coordinates.latitude;
+            this.lon = this.event.coordinates.longitude;
+            console.log(this.event.coordinates.latitude);
         }
     }
 }

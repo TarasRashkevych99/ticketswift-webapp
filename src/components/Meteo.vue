@@ -70,13 +70,15 @@ export default {
         weather: '',
     }),
     async mounted() {
-        this.getMeteo({ date: this.message, lat: 46.14675, lon: 12.21324 });
+        console.log(this.lat + " " + this.lon + " " + this.message)
+        this.getMeteo({ date: this.message, lat: this.lat, lon: this.lon });
     },
-    props: ['message'],
+    props: ['message', 'lat', 'lon'],
     methods: {
         getMeteo: async function (params) {
             try {
                 let res = await getWeather(params);
+                console.log(params);
                 console.log(res['max_temperature'] + "/" + res['min_temperature'] + "" + res.units.temperature);
                 this.temperature = res['min_temperature'] + "/" + res['max_temperature'] + "" + res.units.temperature;
                 this.precipitation = res.precipitation_probability + res.units.probability;
