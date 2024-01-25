@@ -70,8 +70,9 @@ export default {
         weather: '',
     }),
     async mounted() {
-        this.getMeteo({ date: '2024-01-24', lat: 46.14675, lon: 12.21324 });
+        this.getMeteo({ date: this.message, lat: 46.14675, lon: 12.21324 });
     },
+    props: ['message'],
     methods: {
         getMeteo: async function (params) {
             try {

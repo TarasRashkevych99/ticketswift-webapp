@@ -1,23 +1,26 @@
 <template>
   <v-app>
     <v-main>
-      <TicketSwift />
-      <MeteoCard />
+      <RouterView />
+      <!-- <TicketSwift />
+      <MeteoCard /> -->
     </v-main>
   </v-app>
 </template>
 
 
+
 <script>
+import { RouterView } from 'vue-router';
 import TicketSwift from './components/TicketSwift.vue'
 import MeteoCard from './components/Meteo.vue'
-export default {
-  name: 'App',
-  components: {
-    TicketSwift,
-    MeteoCard
-  }
-}
+// export default {
+//   name: 'App',
+//   components: {
+//     TicketSwift,
+//     MeteoCard
+//   }
+// }
 </script>
 
 <style scoped>
