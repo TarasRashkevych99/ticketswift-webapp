@@ -8,13 +8,15 @@ import TicketSwift from './components/TicketSwift.vue'
 import LoginPage from './components/LoginPage.vue'
 
 import usersApi from './api/users.service'
+import authenticationApi from './api/auth.service'
 
 loadFonts()
 
 const app = createApp(App)
 
 app.config.globalProperties.apiService = {
-  usersApi: usersApi
+  usersApi: usersApi,
+  authenticationApi: authenticationApi
 }
 
 const routes = [

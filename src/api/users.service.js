@@ -2,8 +2,8 @@ import apiService from './base.service'
 
 async function isUserAuthenticated() {
   try {
-    const response = await apiService.get('/users/active')
-    return response.data
+    const res = await apiService.get('/users/authenticated')
+    return res.isAuthenticated
   } catch (error) {
     return false
   }
