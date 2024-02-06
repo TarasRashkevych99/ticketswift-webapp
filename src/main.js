@@ -6,6 +6,7 @@ import { createRouter, createWebHashHistory } from 'vue-router'
 
 import TicketSwift from './components/TicketSwift.vue'
 import LoginPage from './components/LoginPage.vue'
+import GeolocationPage from './components/GeolocationPage.vue'
 
 import usersApi from './api/users.service'
 import authenticationApi from './api/auth.service'
@@ -21,7 +22,8 @@ app.config.globalProperties.apiService = {
 
 const routes = [
   { path: '/', name: 'TicketSwift', component: TicketSwift },
-  { path: '/login', name: 'Login', component: LoginPage }
+  { path: '/login', name: 'Login', component: LoginPage },
+  { path: '/geolocation', name: 'Geolocation', component: GeolocationPage }
 ]
 
 const router = createRouter({
