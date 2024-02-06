@@ -1,31 +1,26 @@
 <template>
-  <v-container align="center" justify="center">
-    <v-card class="rounded-lg">
-      <v-card-title class="chat-title">{{ res }}</v-card-title>
-    </v-card>
-  </v-container>
+  <v-app>
+    <v-main>
+      <EventsList />
+      <DateFilter />
+    </v-main>
+  </v-app>
 </template>
 
 <script>
-import axios from 'axios'
-
+import EventsList from './EventsList.vue'
+import DateFilter from './DateFilter.vue'
 export default {
-  name: 'TicketSwift',
-  data: () => ({
-    res: null
-  }),
-  computed: {},
-  async mounted() {
-    this.res = await axios
-      .get('http://localhost:5000', {
-        withCredentials: true
-      })
-      .catch((err) => {
-        console.log(err)
-      })
-  },
-  methods: {}
+  name: 'App',
+  components: {
+    EventsList,
+    DateFilter
+  }
 }
 </script>
 
-<style scoped></style>
+<style scoped>
+/* .v-application {
+  background-color: rgb(15, 23, 42);
+} */
+</style>
