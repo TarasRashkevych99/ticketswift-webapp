@@ -1,23 +1,13 @@
 <template>
   <v-app>
     <v-main>
-      <TicketSwift />
+      <router-view />
     </v-main>
   </v-app>
 </template>
 
 <script>
-import TicketSwift from './components/TicketSwift.vue'
 export default {
-  name: 'App',
-  components: {
-    TicketSwift
-  }
+  name: 'App'
 }
 </script>
-
-<style scoped>
-/* .v-application {
-  background-color: rgb(15, 23, 42);
-} */
-</style>
