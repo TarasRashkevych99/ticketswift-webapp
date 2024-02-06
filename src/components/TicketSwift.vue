@@ -8,8 +8,8 @@
 </template>
 
 <script>
-import EventsList from './components/EventsList.vue'
-import DateFilter from './components/DateFilter.vue'
+import EventsList from './EventsList.vue'
+import DateFilter from './DateFilter.vue'
 export default {
   name: 'App',
   components: {
