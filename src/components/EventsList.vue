@@ -15,6 +15,9 @@
           ></v-text-field>
         </v-card-text>
       </v-card>
+
+      <DateFilter @update-date-filter="handleDateFilter" />
+
       <div v-for="event in events" :key="event._id">
         <v-card :href="`http://localhost:3000/events/${event._id}`">
           <div class="d-flex flex-no-wrap">
@@ -54,13 +57,16 @@
 <script>
 import axios from 'axios'
 import _ from 'lodash'
+import DateFilter from './DateFilter.vue'
 
 export default {
   name: 'EventsList',
+  components: { DateFilter },
   data: () => ({
     events: null,
     eventsResponse: null,
-    search: ''
+    search: '',
+    dateFilter: ''
   }),
   computed: {},
   async mounted() {
@@ -76,14 +82,19 @@ export default {
       await this.getEvents()
     }, 400),
     async getEvents() {
+      console.log(`http://localhost:5000/api/events?keyword=${this.search}${this.dateFilter}`)
       this.eventsResponse = await axios
-        .get(`http://localhost:5000/api/events?keyword=${this.search}`, {
+        .get(`http://localhost:5000/api/events?keyword=${this.search}${this.dateFilter}`, {
           withCredentials: true
         })
         .catch((err) => {
           console.log(err)
         })
       this.events = this.eventsResponse.data
+    },
+    handleDateFilter(value) {
+      this.dateFilter = value
+      this.getEvents()
     }
   }
 }
