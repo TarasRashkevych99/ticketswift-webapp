@@ -19,7 +19,8 @@
         <v-card :href="`http://localhost:3000/events/${event._id}`">
           <div class="d-flex flex-no-wrap">
             <v-avatar class="ma-3" size="150" rounded="lg">
-              <v-img src="https://cdn.vuetifyjs.com/images/cards/halcyon.png"></v-img>
+              <v-img v-if="event.image" :src="`${event.image}`"></v-img>
+              <v-img v-else src="https://cdn.vuetifyjs.com/images/cards/halcyon.png"></v-img>
             </v-avatar>
 
             <div class="text-left">
@@ -37,7 +38,7 @@
                 <v-icon icon="mdi-map-marker" color="primary"></v-icon>
                 {{ event.location.city }}, {{ event.location.country }}
               </v-card-subtitle>
-              <v-card-subtitle>
+              <v-card-subtitle v-if="event.artist">
                 <v-icon icon="mdi-account" color="primary"></v-icon>
                 {{ event.artist.name }}
               </v-card-subtitle>

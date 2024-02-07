@@ -38,10 +38,10 @@ const router = createRouter({
 
 router.beforeResolve(async (to) => {
   if (!(await usersApi.isUserAuthenticated()) && to.name !== 'Login' && to.name !== 'Signup') {
-    if (to.name === 'Login') {
-      return { name: 'Login' }
-    } else {
+    if (to.name === 'Signup') {
       return { name: 'Signup' }
+    } else {
+      return { name: 'Login' }
     }
   }
 })

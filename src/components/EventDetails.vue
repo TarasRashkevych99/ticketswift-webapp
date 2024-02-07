@@ -2,7 +2,12 @@
 
 <template>
   <div>
-    <v-img :width="300" aspect-ratio="16/9" cover src="https://cdn.vuetifyjs.com/images/parallax/material.jpg"></v-img>
+    <v-img
+      :width="300"
+      aspect-ratio="16/9"
+      cover
+      src="https://cdn.vuetifyjs.com/images/parallax/material.jpg"
+    ></v-img>
     <h1>Dettagli dell'evento {{ $route.params.eventId }}</h1>
 
     <h3>Name: {{ event?.name }}</h3>
@@ -27,7 +32,7 @@ export default {
     event: null,
     lat: null,
     lon: null,
-    date: null,
+    date: null
   }),
   computed: {},
   async mounted() {
@@ -45,8 +50,8 @@ export default {
         })
       this.event = this.event.data?.[0]
       this.date = this.event.date.split('T')[0]
-      this.lat = this.event.coordinates.latitude
-      this.lon = this.event.coordinates.longitude
+      this.lat = this.event.location.coordinates.latitude
+      this.lon = this.event.location.coordinates.longitude
       console.log(this.event.date)
     }
   }
