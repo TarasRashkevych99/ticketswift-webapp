@@ -2,24 +2,20 @@
 
 <template>
   <div>
-    <v-img
-      :width="300"
-      aspect-ratio="16/9"
-      cover
-      src="https://cdn.vuetifyjs.com/images/parallax/material.jpg"
-    ></v-img>
+    <v-img :width="300" aspect-ratio="16/9" cover src="https://cdn.vuetifyjs.com/images/parallax/material.jpg"></v-img>
     <h1>Dettagli dell'evento {{ $route.params.eventId }}</h1>
 
     <h3>Name: {{ event?.name }}</h3>
     <!-- <MeteoCard :message="'2024-01-26'" :lat="46.14675" :lon="12.21324"></MeteoCard> -->
-    <MeteoCard v-if="lat" :message="'2024-01-26'" :lat="lat" :lon="lon"></MeteoCard>
+    <!-- <MeteoCard v-if="lat" :message="'2024-02-10'" :lat="lat" :lon="lon"></MeteoCard> -->
+    <MeteoCard v-if="lat" :message="'2024-02-10'" :lat="lat" :lon="lon"></MeteoCard>
     <!-- Altri dettagli dell'evento possono essere aggiunti qui -->
   </div>
 </template>
 
 <script>
 import axios from 'axios'
-import MeteoCard from './Meteo.vue'
+import MeteoCard from './MeteoPage.vue'
 
 export default {
   name: 'TicketSwift',
@@ -30,7 +26,8 @@ export default {
     res: null,
     event: null,
     lat: null,
-    lon: null
+    lon: null,
+    date: null,
   }),
   computed: {},
   async mounted() {
@@ -47,9 +44,10 @@ export default {
           console.log(err)
         })
       this.event = this.event.data?.[0]
+      this.date = this.event.date.split('T')[0]
       this.lat = this.event.coordinates.latitude
       this.lon = this.event.coordinates.longitude
-      console.log(this.event.coordinates.latitude)
+      console.log(this.event.date)
     }
   }
 }
