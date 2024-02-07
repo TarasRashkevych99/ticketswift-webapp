@@ -95,6 +95,3 @@ const forecastApi = {
 }
 
 export default forecastApi
-// getWeather({ date: '2024-01-26', lat: 46.1228, lon: 12.2051 }).then(result => {
-//     console.log(result);
-// });

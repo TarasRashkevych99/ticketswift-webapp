@@ -1,5 +1,5 @@
 <template>
-  <v-card class="mx-auto" max-width="368">
+  <v-card class="mx-auto" max-width="420" width="100%" height="100%">
     <v-card-item>
       <v-card-title>{{ weather }}</v-card-title>
     </v-card-item>
