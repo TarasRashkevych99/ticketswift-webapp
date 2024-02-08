@@ -5,9 +5,6 @@
 </template>
 
 <script>
-import { Loader } from 'google-maps'
-const loader = new Loader('AIzaSyASWk5XWwesQZJJE86OzqVglv3cUZUeJ4k')
-
 export default {
   name: 'MapCard',
   props: ['lat', 'lon'],
@@ -15,19 +12,24 @@ export default {
   computed: {},
   async mounted() {
     console.log('Map: ' + this.lat + ' ' + this.lon + ' ' + this.width + ' ' + this.height)
-    const google = await loader.load()
-    const map = new google.maps.Map(document.getElementById('map'), {
-      center: { lat: Number(this.lat), lng: Number(this.lon) },
-      zoom: 17,
-      mapTypeControl: true
-    })
-    // eslint-disable-next-line no-unused-vars
-    const marker = new google.maps.Marker({
-      map: map,
-      position: { lat: Number(this.lat), lng: Number(this.lon) }
-    })
+    this.initMap()
   },
-  methods: {}
+  methods: {
+    /* eslint-disable no-undef */
+    async initMap() {
+      const { Map } = await google.maps.importLibrary('maps')
+      let map = new Map(document.getElementById('map'), {
+        center: { lat: Number(this.lat), lng: Number(this.lon) },
+        zoom: 17,
+        mapTypeControl: true
+      })
+      // eslint-disable-next-line no-unused-vars
+      const marker = new google.maps.Marker({
+        map: map,
+        position: { lat: Number(this.lat), lng: Number(this.lon) }
+      })
+    }
+  }
 }
 </script>
 
