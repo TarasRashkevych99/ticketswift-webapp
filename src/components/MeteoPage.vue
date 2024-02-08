@@ -68,7 +68,7 @@ export default {
     weather: ''
   }),
   async mounted() {
-    console.log(this.lat + ' ' + this.lon + ' ' + this.message)
+    console.log('Meteo: ' + this.lat + ' ' + this.lon + ' ' + this.message)
     this.getMeteo({ date: this.message, lat: this.lat, lon: this.lon })
   },
   methods: {
