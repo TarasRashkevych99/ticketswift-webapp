@@ -47,6 +47,7 @@
 <script>
 export default {
   name: 'DateFilter',
+  emits: ['update-dateFilter'],
   data: () => ({
     startDate: null,
     minStartDate: null,
