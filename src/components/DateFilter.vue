@@ -9,7 +9,7 @@
 
           <template #default="{ isActive }">
             <v-card title="Start Date">
-              <v-date-picker v-model="startDate" :min="currentDate"></v-date-picker>
+              <v-date-picker v-model="startDate" :min="minStartDate"></v-date-picker>
               <v-card-actions>
                 <v-spacer></v-spacer>
                 <v-btn text="Select Start Date" @click="isActive.value = false"></v-btn>
@@ -39,6 +39,8 @@
     </v-row>
 
     <br /><br /><br />
+
+    {{ startFilterDate }}
   </v-container>
 </template>
 
@@ -46,10 +48,10 @@
 export default {
   name: 'DateFilter',
   data: () => ({
-    startDate: new Date(),
-    currentDate: null,
+    startDate: null,
+    minStartDate: null,
     endDate: null,
-    minEndDate: new Date(),
+    minEndDate: null,
     offset: null,
     filter: '',
     filterStart: '',
@@ -58,12 +60,17 @@ export default {
   computed: {},
   watch: {
     startDate: function () {
+      console.log('WATCHER StartDate: ' + this.dateToMyISO(this.startDate))
+      console.log('WATCHER StartDate: ' + this.startDate)
+
       this.minEndDate = new Date(this.startDate.getTime())
       this.minEndDate.setDate(this.minEndDate.getDate() + 1)
       this.endDate = null
 
       if (this.startDate != null) {
-        this.filterStart = '&from=' + this.dateToMyISO(this.startDate)
+        this.filterStart =
+          '&from=' +
+          this.dateToMyISO(new Date(this.startDate).setDate(this.startDate.getDate() + 1))
       } else {
         this.filterStart = ''
       }
@@ -72,7 +79,8 @@ export default {
     },
     endDate: function () {
       if (this.endDate != null) {
-        this.filterEnd = '&to=' + this.dateToMyISO(this.endDate)
+        this.filterEnd =
+          '&to=' + this.dateToMyISO(new Date(this.endDate).setDate(this.endDate.getDate() + 1))
       } else {
         this.filterEnd = ''
       }
@@ -81,10 +89,15 @@ export default {
     }
   },
   async mounted() {
-    this.currentDate = new Date()
-    this.currentDate.setDate(this.currentDate.getDate() - 1)
+    this.minStartDate = new Date()
+    this.minStartDate.setDate(this.minStartDate.getDate() - 1) // Oggi
+    console.log('MinStart: ' + this.dateToMyISO(this.minStartDate))
+    console.log('MinStart: ' + this.minStartDate)
 
     this.startDate = new Date()
+    console.log('StartDate: ' + this.dateToMyISO(this.startDate))
+    console.log('StartDate: ' + this.startDate)
+
     this.filter = this.filterStart + this.filterEnd
   },
   methods: {
@@ -101,6 +114,7 @@ export default {
     },
     dateToMyISO(date) {
       // date to "YYYY-MM-DDTHH:mm:ssZ"
+      date = new Date(date)
       date = date.toISOString().replace(/\.\d+Z$/, 'Z')
       return date
     }
