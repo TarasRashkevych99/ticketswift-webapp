@@ -3,8 +3,16 @@
     <v-col cols="12">
       <v-card class="mx-auto" color="grey-lighten-5" max-width="400">
         <v-card-text>
-          <v-text-field v-model="search" density="compact" variant="solo" label="Search events" single-line hide-details
-            clearable @input="eventSearch()"></v-text-field>
+          <v-text-field
+            v-model="search"
+            density="compact"
+            variant="solo"
+            label="Search events"
+            single-line
+            hide-details
+            clearable
+            @input="eventSearch()"
+          ></v-text-field>
         </v-card-text>
       </v-card>
 
@@ -64,7 +72,7 @@ export default {
     search: '',
     dateFilter: '',
     locationFilter: '',
-    genreFilter: '',
+    genreFilter: ''
   }),
   computed: {},
   async mounted() {
@@ -80,27 +88,32 @@ export default {
       await this.getEvents()
     }, 400),
     async getEvents() {
-      console.log(`http://localhost:5000/api/events?keyword=${this.search}${this.dateFilter}${this.locationFilter}${this.genreFilter}`)
+      console.log(
+        `http://localhost:5000/api/events?keyword=${this.search}${this.dateFilter}${this.locationFilter}${this.genreFilter}`
+      )
       this.eventsResponse = await axios
-        .get(`http://localhost:5000/api/events?keyword=${this.search}${this.dateFilter}${this.locationFilter}${this.genreFilter}`, {
-          withCredentials: true
-        })
+        .get(
+          `http://localhost:5000/api/events?keyword=${this.search}${this.dateFilter}${this.locationFilter}${this.genreFilter}`,
+          {
+            withCredentials: true
+          }
+        )
         .catch((err) => {
           console.log(err)
         })
       this.events = this.eventsResponse.data
     },
     handleDateFilter(value) {
-      this.dateFilter = value;
-      this.getEvents();
+      this.dateFilter = value
+      this.getEvents()
     },
     handleLocationFilter(value) {
-      this.locationFilter = value;
-      this.getEvents();
+      this.locationFilter = value
+      this.getEvents()
     },
     handleGenreFilter(value) {
-      this.genreFilter = value;
-      this.getEvents();
+      this.genreFilter = value
+      this.getEvents()
     }
   }
 }
