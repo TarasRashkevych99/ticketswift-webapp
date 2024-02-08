@@ -43,7 +43,7 @@ function isDateWithinDays(inputDate, n) {
 }
 
 function parseResponse(response, date) {
-  // console.log(response);
+  console.log(response)
   let latitude = response.latitude
   let longitude = response.longitude
   let tUnit = response.daily_units.temperature_2m_max
@@ -54,6 +54,7 @@ function parseResponse(response, date) {
   let maxTemp = response.daily.temperature_2m_max[pos]
   let minTemp = response.daily.temperature_2m_min[pos]
   let precipitationProb = response.daily.precipitation_probability_max[pos]
+  let windSpeed = response.daily.wind_speed_10m_max[pos]
 
   return {
     lat: latitude,
@@ -65,6 +66,7 @@ function parseResponse(response, date) {
     weather: weather,
     max_temperature: maxTemp,
     min_temperature: minTemp,
+    wind_speed: windSpeed,
     precipitation_probability: precipitationProb
   }
 }
@@ -83,7 +85,7 @@ export async function getWeather(params) {
     '&longitude=' +
     lon +
     '&daily=' +
-    'weather_code,temperature_2m_max,temperature_2m_min,precipitation_probability_max&forecast_days=16'
+    'weather_code,temperature_2m_max,temperature_2m_min,precipitation_probability_max,wind_speed_10m_max&forecast_days=16'
   console.log(url)
   const response = await fetch(url)
   const data = parseResponse(await response.json(), params.date)
