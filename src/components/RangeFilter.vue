@@ -1,0 +1,79 @@
+<template>
+    <v-container>
+        <v-form>
+            <v-container>
+                <v-row>
+                    <v-col cols="12" sm="5">
+                        <v-text-field v-model="address" label="Location" append-inner-icon="mdi-map-marker"
+                            variant="outlined"></v-text-field>
+                    </v-col>
+
+                    <v-col cols="12" sm="5">
+                        <v-slider v-model="slider" class="align-center" :max="max" :min="min" :step="1" hide-details>
+                            <template v-slot:append>
+                                <v-text-field v-model="slider" :max="max" hide-details single-line variant="outlined"
+                                    density="compact" type="number" style="width: 80px"></v-text-field>
+                            </template>
+                        </v-slider>
+                    </v-col>
+                    <v-col cols="12" sm="2">
+                        <v-btn @click="getLatLng" color="success">
+                            Filter
+                        </v-btn>
+                    </v-col>
+                </v-row>
+            </v-container>
+        </v-form>
+    </v-container>
+</template>
+  
+<script>
+import axios from 'axios';
+
+export default {
+    name: 'DateFilter',
+    data: () => ({
+        min: 0,
+        max: 500,
+        slider: 100,
+        step: 1,
+        address: '',
+        filter: '',
+    }),
+    methods: {
+        async getLatLng() {
+            try {
+                if (this.address) {
+                    const response = await axios.get(
+                        'https://maps.googleapis.com/maps/api/geocode/json',
+                        {
+                            params: {
+                                address: this.address,
+                                key: 'AIzaSyASWk5XWwesQZJJE86OzqVglv3cUZUeJ4k'
+                            }
+                        }
+                    );
+                    const location = response.data.results[0].geometry.location;
+                    const latLng = `${location.lat},${location.lng}`;
+
+                    console.log('Latitudine e longitudine:', latLng);
+                    console.log(this.address + " range= " + this.slider);
+
+                    this.filter = "&lat=" + location.lat + "&lon=" + location.lng + "&radius=" + this.slider;
+                    console.log(this.filter)
+                    this.$emit('update-locationFilter', this.filter)
+                } else {
+                    this.filter = '';
+                    this.$emit('update-locationFilter', this.filter)
+                }
+
+            } catch (error) {
+                console.error('Location not found', error);
+            }
+        }
+    }
+}
+</script>
+  
+<style scoped></style>
+                                                                                                                                                                                                                                       
