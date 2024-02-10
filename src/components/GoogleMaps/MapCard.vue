@@ -1,6 +1,6 @@
 <template>
-  <v-card class="mx-auto" width="30%" height="20%">
-    <div id="map">{{ width }}</div>
+  <v-card class="mx-auto" width="70%" height="35%" style="margin-top: 2rem; margin-bottom: 1rem">
+    <div id="map"></div>
   </v-card>
 </template>
 
@@ -12,7 +12,7 @@ export default {
   computed: {},
   async mounted() {
     console.log('Map: ' + this.lat + ' ' + this.lon + ' ' + this.width + ' ' + this.height)
-    this.initMap()
+    await this.initMap()
   },
   methods: {
     /* eslint-disable no-undef */

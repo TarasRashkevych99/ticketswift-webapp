@@ -61,6 +61,7 @@
     </v-container>
   </div>
   <MapCard v-if="lat" :lat="lat" :lon="lon" />
+  <div style="height: 10px"></div>
 </template>
 
 <script>
