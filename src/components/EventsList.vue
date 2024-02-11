@@ -15,11 +15,17 @@
           ></v-text-field>
         </v-card-text>
       </v-card>
+
+      <DateFilter @update-date-filter="handleDateFilter" />
+      <RangeFilter @update-location-filter="handleLocationFilter"></RangeFilter>
+      <Categories @update-genre-filter="handleGenreFilter"></Categories>
+
       <div v-for="event in events" :key="event._id">
         <v-card :href="`http://localhost:3000/events/${event._id}`">
           <div class="d-flex flex-no-wrap">
             <v-avatar class="ma-3" size="150" rounded="lg">
-              <v-img src="https://cdn.vuetifyjs.com/images/cards/halcyon.png"></v-img>
+              <v-img v-if="event.image" :src="`${event.image}`"></v-img>
+              <v-img v-else src="https://cdn.vuetifyjs.com/images/cards/halcyon.png"></v-img>
             </v-avatar>
 
             <div class="text-left">
@@ -37,7 +43,7 @@
                 <v-icon icon="mdi-map-marker" color="primary"></v-icon>
                 {{ event.location.city }}, {{ event.location.country }}
               </v-card-subtitle>
-              <v-card-subtitle>
+              <v-card-subtitle v-if="event.artist">
                 <v-icon icon="mdi-account" color="primary"></v-icon>
                 {{ event.artist.name }}
               </v-card-subtitle>
@@ -53,17 +59,24 @@
 <script>
 import axios from 'axios'
 import _ from 'lodash'
+import DateFilter from './DateFilter.vue'
+import RangeFilter from './RangeFilter.vue'
+import Categories from './Categories.vue'
 
 export default {
   name: 'EventsList',
+  components: { DateFilter, RangeFilter, Categories },
   data: () => ({
     events: null,
     eventsResponse: null,
-    search: ''
+    search: '',
+    dateFilter: '',
+    locationFilter: '',
+    genreFilter: ''
   }),
   computed: {},
-  async mounted() {
-    await this.getEvents()
+  mounted() {
+    this.getMycurrentLocation()
   },
   methods: {
     dateToString(date) {
@@ -75,14 +88,51 @@ export default {
       await this.getEvents()
     }, 400),
     async getEvents() {
+      console.log(
+        `http://localhost:5000/api/events?keyword=${this.search}${this.dateFilter}${this.locationFilter}${this.genreFilter}`
+      )
       this.eventsResponse = await axios
-        .get(`http://localhost:5000/api/events?keyword=${this.search}`, {
-          withCredentials: true
-        })
+        .get(
+          `http://localhost:5000/api/events?keyword=${this.search}${this.dateFilter}${this.locationFilter}${this.genreFilter}`,
+          {
+            withCredentials: true
+          }
+        )
         .catch((err) => {
           console.log(err)
         })
       this.events = this.eventsResponse.data
+    },
+    handleDateFilter(value) {
+      this.dateFilter = value
+      this.getEvents()
+    },
+    handleLocationFilter(value) {
+      this.locationFilter = value
+      this.getEvents()
+    },
+    handleGenreFilter(value) {
+      this.genreFilter = value
+      this.getEvents()
+    },
+    getMycurrentLocation() {
+      function success(position) {
+        const latitude = position.coords.latitude
+        const longitude = position.coords.longitude
+
+        sessionStorage.setItem('latitude', latitude)
+        sessionStorage.setItem('longitude', longitude)
+      }
+
+      function error() {
+        sessionStorage.setItem('positionNotAvailable', true)
+      }
+
+      if (!navigator.geolocation) {
+        // status.textContent = 'Geolocation is not supported by your browser'
+      } else {
+        navigator.geolocation.getCurrentPosition(success, error)
+      }
     }
   }
 }

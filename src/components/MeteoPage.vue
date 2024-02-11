@@ -1,5 +1,5 @@
 <template>
-  <v-card class="mx-auto" max-width="368">
+  <v-card class="mx-auto" max-width="420" width="100%" height="100%">
     <v-card-item>
       <v-card-title>{{ weather }}</v-card-title>
     </v-card-item>
@@ -15,12 +15,12 @@
     </v-card-text>
 
     <div class="d-flex py-3 justify-space-between">
-      <v-list-item density="compact" prepend-icon="mdi-weather-windy">
-        <v-list-item-subtitle>123 km/h</v-list-item-subtitle>
+      <v-list-item v-if="wind !== ''" density="compact" prepend-icon="mdi-weather-windy">
+        <v-list-item-subtitle>{{ wind }} km/h</v-list-item-subtitle>
       </v-list-item>
 
-      <v-list-item density="compact" prepend-icon="mdi-weather-pouring">
-        <v-list-item-subtitle>{{ precipitation }}</v-list-item-subtitle>
+      <v-list-item v-if="precipitation !== ''" density="compact" prepend-icon="mdi-weather-pouring">
+        <v-list-item-subtitle>{{ precipitation }}%</v-list-item-subtitle>
       </v-list-item>
     </div>
   </v-card>
@@ -65,10 +65,11 @@ export default {
     time: 0,
     temperature: '',
     precipitation: '',
-    weather: ''
+    weather: '',
+    wind: ''
   }),
   async mounted() {
-    console.log(this.lat + ' ' + this.lon + ' ' + this.message)
+    console.log('Meteo: ' + this.lat + ' ' + this.lon + ' ' + this.message)
     this.getMeteo({ date: this.message, lat: this.lat, lon: this.lon })
   },
   methods: {
@@ -79,12 +80,23 @@ export default {
         console.log(
           res['max_temperature'] + '/' + res['min_temperature'] + '' + res.units.temperature
         )
-        this.temperature =
-          res['min_temperature'] + '/' + res['max_temperature'] + '' + res.units.temperature
-        this.precipitation = res.precipitation_probability + res.units.probability
-        this.weather = res.weather
+        if (res['min_temperature'] && res['max_temperature'] && res.weather) {
+          this.temperature =
+            res['min_temperature'] + '/' + res['max_temperature'] + '' + res.units.temperature
+          this.weather = res.weather
+          this.wind = res.wind_speed ?? ''
+          this.precipitation = res.precipitation_probability ?? ''
+          console.log(this.precipitation)
+        } else {
+          this.temperature = 'Not Available'
+          this.weather = ''
+        }
       } catch (err) {
         console.log(err)
+        this.temperature = 'Not Available'
+        this.weather = ''
+        this.precipitation = ''
+        this.wind = ''
       }
     }
   }

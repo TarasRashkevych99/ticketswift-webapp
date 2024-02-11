@@ -14,6 +14,7 @@
   "dependencies": {
     "@mdi/font": "5.9.55",
     "axios": "^1.6.4",
+    "google-maps": "^4.3.3",
     "lodash": "^4.17.21",
     "roboto-fontface": "*",
     "socket.io-client": "^4.7.2",
