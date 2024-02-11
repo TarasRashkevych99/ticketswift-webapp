@@ -75,8 +75,8 @@ export default {
     genreFilter: ''
   }),
   computed: {},
-  async mounted() {
-    await this.getEvents()
+  mounted() {
+    this.getMycurrentLocation()
   },
   methods: {
     dateToString(date) {
@@ -114,6 +114,25 @@ export default {
     handleGenreFilter(value) {
       this.genreFilter = value
       this.getEvents()
+    },
+    getMycurrentLocation() {
+      function success(position) {
+        const latitude = position.coords.latitude
+        const longitude = position.coords.longitude
+
+        sessionStorage.setItem('latitude', latitude)
+        sessionStorage.setItem('longitude', longitude)
+      }
+
+      function error() {
+        sessionStorage.setItem('positionNotAvailable', true)
+      }
+
+      if (!navigator.geolocation) {
+        // status.textContent = 'Geolocation is not supported by your browser'
+      } else {
+        navigator.geolocation.getCurrentPosition(success, error)
+      }
     }
   }
 }

@@ -11,8 +11,17 @@
               variant="outlined"
             ></v-text-field>
           </v-col>
-
-          <v-col cols="12" sm="5">
+          <v-col cols="12" sm="1">
+            <v-btn
+              :disabled="!isMyCurrentLocationAvailable"
+              :loading="isInitialLoading"
+              block
+              class="mt-2"
+              @click="useMyCurrentLocation()"
+              >My Location</v-btn
+            >
+          </v-col>
+          <v-col cols="12" sm="4">
             <v-slider
               v-model="slider"
               class="align-center"
@@ -56,8 +65,14 @@ export default {
     slider: 100,
     step: 1,
     address: '',
-    filter: ''
+    filter: '',
+    isMyCurrentLocationAvailable: false,
+    isInitialLoading: true,
+    handlerId: null
   }),
+  mounted() {
+    this.setMyCurrentLocationListener()
+  },
   methods: {
     async getLatLng() {
       try {
@@ -84,6 +99,28 @@ export default {
       } catch (error) {
         console.error('Location not found', error)
       }
+    },
+    useMyCurrentLocation() {
+      const latitude = sessionStorage.getItem('latitude')
+      const longitude = sessionStorage.getItem('longitude')
+
+      this.filter = '&lat=' + latitude + '&lon=' + longitude + '&radius=' + this.slider
+      console.log(this.filter)
+      this.$emit('update-locationFilter', this.filter)
+    },
+    setMyCurrentLocationListener() {
+      this.handlerId = window.setInterval(() => {
+        if (sessionStorage.getItem('latitude') && sessionStorage.getItem('longitude')) {
+          this.isMyCurrentLocationAvailable = true
+          this.isInitialLoading = false
+          clearInterval(this.handlerId)
+        }
+        if (sessionStorage.getItem('positionNotAvailable')) {
+          this.isMyCurrentLocationAvailable = false
+          this.isInitialLoading = false
+          clearInterval(this.handlerId)
+        }
+      }, 300)
     }
   }
 }
