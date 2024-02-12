@@ -67,16 +67,22 @@
       </v-row>
     </v-container>
   </div>
+  <MapCard v-if="lat" :lat="lat" :lon="lon" />
+  <div style="height: 10px"></div>
 </template>
 
 <script>
 import axios from 'axios'
 import MeteoCard from './MeteoPage.vue'
+import MapCard from './GoogleMaps/MapCard.vue'
+import RoutingCard from './GoogleMaps/RoutingCard.vue'
 
 export default {
   name: 'TicketSwift',
   components: {
-    MeteoCard
+    MeteoCard,
+    MapCard,
+    RoutingCard
   },
   data: () => ({
     res: null,
