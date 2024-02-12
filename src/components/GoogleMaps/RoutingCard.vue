@@ -33,8 +33,8 @@ export default {
       directionsService
         .route({
           origin: {
-            lat: 41.87,
-            lng: -87.65
+            lat: Number(sessionStorage.getItem('latitude')),
+            lng: Number(sessionStorage.getItem('longitude'))
           },
           destination: {
             lat: Number(this.lat),

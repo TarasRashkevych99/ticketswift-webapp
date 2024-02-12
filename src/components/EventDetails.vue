@@ -39,6 +39,8 @@
             ipsum dolor sit amet, consectetur adipiscing elit. Nulla ac arcu leo.<br />
           </p>
         </v-col>
+      </v-row>
+      <v-row>
         <v-col>
           <!-- <v-row class="d-flex justify-center align-center"> -->
           <v-table class="mb-10">
@@ -61,6 +63,7 @@
           </v-table>
           <!-- </v-row> -->
           <v-row>
+            <PayPalButton />
             <MeteoCard v-if="lat" :message="date" :lat="lat" :lon="lon"></MeteoCard>
           </v-row>
         </v-col>
@@ -75,14 +78,14 @@
 import axios from 'axios'
 import MeteoCard from './MeteoPage.vue'
 import MapCard from './GoogleMaps/MapCard.vue'
-import RoutingCard from './GoogleMaps/RoutingCard.vue'
+import PayPalButton from './PayPalButton.vue'
 
 export default {
   name: 'TicketSwift',
   components: {
     MeteoCard,
     MapCard,
-    RoutingCard
+    PayPalButton
   },
   data: () => ({
     res: null,
