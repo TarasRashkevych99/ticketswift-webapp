@@ -19,8 +19,9 @@
               block
               class="mt-2"
               @click="useMyCurrentLocation()"
-              >My Location</v-btn
             >
+              My Location
+            </v-btn>
             <v-btn color="success" @click="getLatLng"> Selected Location </v-btn>
           </v-col>
           <v-col cols="12" sm="4">
