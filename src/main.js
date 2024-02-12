@@ -9,6 +9,7 @@ import TicketSwift from './components/TicketSwift.vue'
 import LoginPage from './components/LoginPage.vue'
 import SignupPage from './components/SignupPage.vue'
 import EventDatails from './components/EventDetails.vue'
+import GeolocationPage from './components/GeolocationPage.vue'
 
 import usersApi from './api/users.service'
 import authenticationApi from './api/auth.service'
@@ -28,7 +29,8 @@ const routes = [
   { path: '/', name: 'TicketSwift', component: TicketSwift },
   { path: '/login', name: 'Login', component: LoginPage },
   { path: '/signup', name: 'Signup', component: SignupPage },
-  { path: '/events/:eventId', name: 'eventDetails', component: EventDatails }
+  { path: '/events/:eventId', name: 'eventDetails', component: EventDatails },
+  { path: '/geolocation', name: 'Geolocation', component: GeolocationPage }
 ]
 
 const router = createRouter({

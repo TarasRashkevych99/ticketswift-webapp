@@ -17,6 +17,8 @@
       </v-card>
 
       <DateFilter @update-date-filter="handleDateFilter" />
+      <RangeFilter @update-location-filter="handleLocationFilter"></RangeFilter>
+      <Categories @update-genre-filter="handleGenreFilter"></Categories>
 
       <div v-for="event in events" :key="event._id">
         <v-card :href="`http://localhost:3000/events/${event._id}`">
@@ -58,19 +60,23 @@
 import axios from 'axios'
 import _ from 'lodash'
 import DateFilter from './DateFilter.vue'
+import RangeFilter from './RangeFilter.vue'
+import Categories from './Categories.vue'
 
 export default {
   name: 'EventsList',
-  components: { DateFilter },
+  components: { DateFilter, RangeFilter, Categories },
   data: () => ({
     events: null,
     eventsResponse: null,
     search: '',
-    dateFilter: ''
+    dateFilter: '',
+    locationFilter: '',
+    genreFilter: ''
   }),
   computed: {},
-  async mounted() {
-    await this.getEvents()
+  mounted() {
+    this.getMycurrentLocation()
   },
   methods: {
     dateToString(date) {
@@ -82,11 +88,16 @@ export default {
       await this.getEvents()
     }, 400),
     async getEvents() {
-      console.log(`http://localhost:5000/api/events?keyword=${this.search}${this.dateFilter}`)
+      console.log(
+        `http://localhost:5000/api/events?keyword=${this.search}${this.dateFilter}${this.locationFilter}${this.genreFilter}`
+      )
       this.eventsResponse = await axios
-        .get(`http://localhost:5000/api/events?keyword=${this.search}${this.dateFilter}`, {
-          withCredentials: true
-        })
+        .get(
+          `http://localhost:5000/api/events?keyword=${this.search}${this.dateFilter}${this.locationFilter}${this.genreFilter}`,
+          {
+            withCredentials: true
+          }
+        )
         .catch((err) => {
           console.log(err)
         })
@@ -95,6 +106,33 @@ export default {
     handleDateFilter(value) {
       this.dateFilter = value
       this.getEvents()
+    },
+    handleLocationFilter(value) {
+      this.locationFilter = value
+      this.getEvents()
+    },
+    handleGenreFilter(value) {
+      this.genreFilter = value
+      this.getEvents()
+    },
+    getMycurrentLocation() {
+      function success(position) {
+        const latitude = position.coords.latitude
+        const longitude = position.coords.longitude
+
+        sessionStorage.setItem('latitude', latitude)
+        sessionStorage.setItem('longitude', longitude)
+      }
+
+      function error() {
+        sessionStorage.setItem('positionNotAvailable', true)
+      }
+
+      if (!navigator.geolocation) {
+        // status.textContent = 'Geolocation is not supported by your browser'
+      } else {
+        navigator.geolocation.getCurrentPosition(success, error)
+      }
     }
   }
 }
