@@ -9,6 +9,8 @@
               label="Location"
               append-inner-icon="mdi-map-marker"
               variant="outlined"
+              clearable
+              @click:clear="handleClear"
             ></v-text-field>
           </v-col>
           <v-col cols="12" sm="1">
@@ -55,6 +57,7 @@
 
 <script>
 import axios from 'axios'
+import _ from 'lodash'
 
 export default {
   name: 'DateFilter',
@@ -68,8 +71,24 @@ export default {
     filter: '',
     isMyCurrentLocationAvailable: false,
     isInitialLoading: true,
-    handlerId: null
+    handlerId: null,
+    lat: null,
+    lon: null
   }),
+  watch: {
+    slider: _.debounce(async function () {
+      // console.log("Disponibilita' = " + this.isMyCurrentLocationAvailable)
+      // console.log('Filter = ' + this.filter)
+      if (this.lat & this.lat) {
+        console.log('Ricerca')
+        this.filter = '&lat=' + this.lat + '&lon=' + this.lon + '&radius=' + this.slider
+        this.$emit('update-locationFilter', this.filter)
+      } else if (this.isMyCurrentLocationAvailable) {
+        console.log('Sessione')
+        this.useMyCurrentLocation()
+      }
+    }, 400)
+  },
   mounted() {
     this.setMyCurrentLocationListener()
   },
@@ -86,6 +105,9 @@ export default {
           const location = response.data.results[0].geometry.location
           const latLng = `${location.lat},${location.lng}`
 
+          this.lat = location.lat
+          this.lon = location.lng
+
           console.log('Latitudine e longitudine:', latLng)
           console.log(this.address + ' range= ' + this.slider)
 
@@ -94,11 +116,19 @@ export default {
           this.$emit('update-locationFilter', this.filter)
         } else {
           this.filter = ''
+          this.lat = null
+          this.lon = null
           this.$emit('update-locationFilter', this.filter)
         }
       } catch (error) {
         console.error('Location not found', error)
       }
+    },
+    handleClear() {
+      this.filter = ''
+      this.lat = null
+      this.lon = null
+      this.$emit('update-locationFilter', this.filter)
     },
     useMyCurrentLocation() {
       const latitude = sessionStorage.getItem('latitude')
