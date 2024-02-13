@@ -48,18 +48,40 @@
     </div>
 
     <v-container fluid>
-      <v-row v-for="item in tickets" :key="item.id" justify="center" allign-content="center">
-        <v-col allign-content="center">
+      <v-row class="head-section">
+        <v-col class="column-cell">Ticket</v-col>
+        <v-col class="column-cell">Price</v-col>
+        <v-col class="column-cell">Quantity</v-col>
+        <v-col class="column-cell">Actions</v-col>
+      </v-row>
+      <v-row v-for="item in tickets" :key="item._id">
+        <v-col class="column-cell">
           {{ item.name }}
         </v-col>
-
-        <v-col allign-self="center">
+        <v-col class="column-cell">
           {{ item.price }}
         </v-col>
-
-        <v-col allign-self="center">
-          <v-btn color="success" @click="addToCart(item)"> Add to Cart </v-btn>
-          <v-btn color="success" @click="addToCart(item)"> Remove from Cart </v-btn>
+        <v-col class="column-cell">
+          {{ cart.get(item._id) }}
+        </v-col>
+        <v-col class="column-cell">
+          <v-btn
+            class="add-margin"
+            icon="mdi-plus"
+            size="small"
+            color="success"
+            :disabled="cart.get(item._id) >= item.availability"
+            @click="addToCart(item)"
+          >
+          </v-btn>
+          <v-btn
+            icon="mdi-minus"
+            size="small"
+            color="error"
+            :disabled="!cart.get(item._id)"
+            @click="removeFromCart(item)"
+          >
+          </v-btn>
         </v-col>
       </v-row>
     </v-container>
@@ -95,7 +117,7 @@ export default {
     image: null,
     name: null,
     tickets: null,
-    cart: []
+    cart: new Map()
   }),
   computed: {},
   async mounted() {
@@ -118,13 +140,35 @@ export default {
       this.image = this.event?.image
       this.name = this.event?.name
       this.tickets = this.event.tickets
+      for (let ticket of this.tickets) {
+        this.cart.set(ticket._id, 0)
+      }
+    },
+    addToCart(item) {
+      console.log(this.cart)
+      this.cart.set(item._id, this.cart.get(item._id) + 1)
+      console.log(item._id + ': ' + this.cart.get(item._id))
+    },
+    removeFromCart(item) {
+      this.cart.set(item._id, this.cart.get(item._id) - 1)
+      console.log(item._id + ': ' + this.cart.get(item._id))
     }
   }
 }
 </script>
 
 <style scoped>
-.adjust-tickets {
-  justify-content: space-between;
+.column-cell {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-bottom: 0.5px solid rgb(0, 0, 0);
+}
+.head-section {
+  background-color: #d8d8d8;
+  font-weight: bold;
+}
+.add-margin {
+  margin: 0 10px;
 }
 </style>
