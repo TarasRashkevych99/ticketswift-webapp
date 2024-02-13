@@ -102,7 +102,7 @@
           </v-row>
           <v-row v-for="item in tickets" :key="item._id">
             <v-col class="column-cell">
-              <span class="center-ticket-name">{{ item.name }}</span>
+              {{ item.name }}
             </v-col>
             <v-col class="column-cell">{{ cart.get(item._id) }}</v-col>
             <v-col class="column-cell">{{ item.price * cart.get(item._id) }}</v-col>
@@ -127,9 +127,7 @@
             variant="solo"
             class="discount-form"
           ></v-text-field>
-          <v-btn rounded="lg" variant="tonal" color="primary" class="discount-button">
-            Apply
-          </v-btn>
+          <v-btn variant="tonal" color="primary" class="discount-button"> Apply </v-btn>
           <PayPalButton :discount="discount" />
         </v-card-actions>
       </v-card>
@@ -220,14 +218,17 @@ export default {
   margin: auto;
   width: 50%;
 }
-.center-ticket-name {
-  text-align: center;
-}
 .discount-form {
   margin-top: 0.75rem;
   width: 30px;
 }
 .discount-button {
   margin: 0 0.5rem 0.5rem 0.5rem;
+  border-radius: 100px;
+}
+</style>
+<style>
+.v-field.v-field--center-affix.v-field--variant-solo.v-theme--light.v-locale--is-ltr {
+  border-radius: 25px;
 }
 </style>
