@@ -1,5 +1,5 @@
 <template>
-  <div class="asdf">
+  <div>
     <div id="paypal-button-container" class="adjust-dim"></div>
   </div>
 </template>
@@ -7,7 +7,7 @@
 <script>
 export default {
   name: 'TagsList',
-  props: ['cart'],
+  props: ['cart', 'discount'],
   data: () => ({}),
   computed: {},
   mounted() {
@@ -138,9 +138,5 @@ export default {
 <style scoped>
 .adjust-dim {
   width: 25%;
-}
-.asdf {
-  display: flex;
-  justify-content: center;
 }
 </style>

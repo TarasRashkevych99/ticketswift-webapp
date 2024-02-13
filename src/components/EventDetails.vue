@@ -86,11 +86,55 @@
       </v-row>
     </v-container>
 
-    <v-row>
+    <!-- <v-row class="column-cell">
       <PayPalButton />
-    </v-row>
-
-    <MapCard v-if="lat" :lat="lat" :lon="lon" />
+    </v-row> -->
+    <div style="margin-top: 50px"></div>
+    <div class="payment-card">
+      <v-card>
+        <v-card-title>{{ name }}</v-card-title>
+        <v-spacer></v-spacer>
+        <v-card-text>
+          <v-row>
+            <v-col class="column-cell">Item</v-col>
+            <v-col class="column-cell">Quantity</v-col>
+            <v-col class="column-cell">Price</v-col>
+          </v-row>
+          <v-row v-for="item in tickets" :key="item._id">
+            <v-col class="column-cell">
+              <span class="center-ticket-name">{{ item.name }}</span>
+            </v-col>
+            <v-col class="column-cell">{{ cart.get(item._id) }}</v-col>
+            <v-col class="column-cell">{{ item.price * cart.get(item._id) }}</v-col>
+          </v-row>
+          <v-row>
+            <v-col class="column-cell">Total</v-col>
+            <v-col class="column-cell"></v-col>
+            <v-col class="column-cell">
+              {{
+                Array.from(cart).reduce(
+                  (acc, [id, quantity]) => acc + tickets.find((t) => t._id === id).price * quantity,
+                  0
+                )
+              }}
+            </v-col>
+          </v-row>
+        </v-card-text>
+        <v-card-actions>
+          <v-text-field
+            v-model="discount"
+            label="Discount"
+            variant="solo"
+            class="discount-form"
+          ></v-text-field>
+          <v-btn rounded="lg" variant="tonal" color="primary" class="discount-button">
+            Apply
+          </v-btn>
+          <PayPalButton :discount="discount" />
+        </v-card-actions>
+      </v-card>
+    </div>
+    <!-- <MapCard v-if="lat" :lat="lat" :lon="lon" /> -->
     <div style="height: 10px"></div>
   </div>
 </template>
@@ -98,14 +142,14 @@
 <script>
 import axios from 'axios'
 import MeteoCard from './MeteoPage.vue'
-import MapCard from './GoogleMaps/MapCard.vue'
+// import MapCard from './GoogleMaps/MapCard.vue'
 import PayPalButton from './PayPalButton.vue'
 
 export default {
   name: 'TicketSwift',
   components: {
     MeteoCard,
-    MapCard,
+    // MapCard,
     PayPalButton
   },
   data: () => ({
@@ -117,7 +161,8 @@ export default {
     image: null,
     name: null,
     tickets: null,
-    cart: new Map()
+    cart: new Map(),
+    discount: null
   }),
   computed: {},
   async mounted() {
@@ -170,5 +215,19 @@ export default {
 }
 .add-margin {
   margin: 0 10px;
+}
+.payment-card {
+  margin: auto;
+  width: 50%;
+}
+.center-ticket-name {
+  text-align: center;
+}
+.discount-form {
+  margin-top: 0.75rem;
+  width: 30px;
+}
+.discount-button {
+  margin: 0 0.5rem 0.5rem 0.5rem;
 }
 </style>
