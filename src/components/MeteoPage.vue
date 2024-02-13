@@ -1,5 +1,5 @@
 <template>
-  <v-card class="mx-auto" max-width="420" width="100%" height="100%">
+  <v-card class="mx-auto" max-width="450" width="100%" height="100%">
     <v-card-item>
       <v-card-title>{{ weather }}</v-card-title>
     </v-card-item>
@@ -105,6 +105,6 @@ export default {
 
 <style>
 .temperature {
-  font-size: 2.7rem;
+  font-size: 2.6rem;
 }
 </style>

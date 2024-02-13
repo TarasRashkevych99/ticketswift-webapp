@@ -7,12 +7,8 @@
 <script>
 export default {
   name: 'TagsList',
-  data: () => ({
-    eventData: null,
-    eventResponse: null,
-    mainTag: null,
-    secondaryTags: null
-  }),
+  props: ['cart'],
+  data: () => ({}),
   computed: {},
   mounted() {
     this.payPalSetup()
@@ -37,7 +33,7 @@ export default {
                 // use the "body" param to optionally pass additional order information
                 // like product ids and quantities
                 body: JSON.stringify({
-                  cart: [
+                  /*cart: [
                     {
                       event_id: '65a2b1f19780411fd46fa864',
                       ticket_id: '65a2b1f978041123d46fa864',
@@ -48,7 +44,8 @@ export default {
                       ticket_id: '65a2b1f978041123d46fa865',
                       quantity: '1'
                     }
-                  ],
+                  ],*/
+                  cart: this.cart,
                   coupon: ''
                 })
               })

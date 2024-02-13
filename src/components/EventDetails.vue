@@ -2,76 +2,75 @@
 
 <template>
   <div>
-    <v-card class="ma-0 mb-10" height="600" theme="dark">
-      <v-card-title class="my-6" style="font-size: 40px">{{ name }}</v-card-title>
-      <v-img v-if="image" :src="event.image" :title="name"></v-img>
-      <v-img v-else src="https://cdn.vuetifyjs.com/images/cards/halcyon.png" title=""></v-img>
-    </v-card>
+    <div>
+      <v-card class="ma-0 mb-10" height="600" theme="dark">
+        <v-card-title class="my-6" style="font-size: 40px">{{ name }}</v-card-title>
+        <v-img v-if="image" :src="event.image" :title="name"></v-img>
+        <v-img v-else src="https://cdn.vuetifyjs.com/images/cards/halcyon.png" title=""></v-img>
+      </v-card>
 
-    <!-- <h1>Dettagli dell'evento {{ $route.params.eventId }}</h1> -->
-    <!-- <h3>Name: {{ name }}</h3> -->
-    <!-- <MeteoCard :message="'2024-01-26'" :lat="46.14675" :lon="12.21324"></MeteoCard> -->
-    <!-- <MeteoCard v-if="lat" :message="'2024-02-10'" :lat="lat" :lon="lon"></MeteoCard> -->
+      <!-- <h1>Dettagli dell'evento {{ $route.params.eventId }}</h1> -->
+      <!-- <h3>Name: {{ name }}</h3> -->
+      <!-- <MeteoCard :message="'2024-01-26'" :lat="46.14675" :lon="12.21324"></MeteoCard> -->
+      <!-- <MeteoCard v-if="lat" :message="'2024-02-10'" :lat="lat" :lon="lon"></MeteoCard> -->
 
-    <v-container fluid ma-0 pa-0 fill-height>
-      <v-row>
-        <v-col cols="9">
-          <p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus pretium vestibulum
-            vestibulum. Phasellus semper posuere massa. Proin eu sem a mi cursus elementum. Etiam
-            sed urna ut orci laoreet rutrum. Curabitur vel ultrices diam. Duis et blandit lacus.
-            Duis pellentesque a ipsum vel maximus. Ut ligula dolor, finibus at urna a, luctus
-            elementum turpis.<br />
-          </p>
-          <p>
-            Vestibulum suscipit consectetur erat, at lacinia risus ullamcorper cursus. Suspendisse a
-            augue est. Etiam ut lacus id erat ultrices scelerisque ut ac enim. Praesent in placerat
-            justo, et porttitor dui. Nam id sodales enim. Quisque gravida ex lectus, quis molestie
-            purus mollis ac. Cras dui ligula, cursus in pharetra vel, rhoncus sit amet dolor.
-            Maecenas eu viverra est. Aliquam id neque eu massa rhoncus tempus eu consequat eros.
-            Etiam orci eros, consectetur in malesuada nec, volutpat a libero.<br />
-          </p>
-          <p>
-            Ut sagittis elit vitae magna elementum, a feugiat risus egestas. Interdum et malesuada
-            fames ac ante ipsum primis in faucibus. Duis scelerisque quam a gravida vestibulum.
-            Pellentesque vitae tellus lobortis purus aliquet rutrum. Sed ut euismod leo. Cras eu
-            molestie neque. Nullam sed metus tincidunt, finibus magna eu, malesuada felis. Lorem
-            ipsum dolor sit amet, consectetur adipiscing elit. Nulla ac arcu leo.<br />
-          </p>
-        </v-col>
-      </v-row>
-      <v-row>
-        <v-col>
-          <!-- <v-row class="d-flex justify-center align-center"> -->
-          <v-table class="mb-10">
-            <thead>
-              <tr>
-                <th class="text-left">Name</th>
-                <th class="text-left">Price</th>
-                <th></th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr v-for="item in tickets" :key="item.id" height="80">
-                <td>{{ item.name }}</td>
-                <td>{{ item.price }}</td>
-                <td>
-                  <v-btn color="success" @click="addToCart(item)"> Add to Cart </v-btn>
-                </td>
-              </tr>
-            </tbody>
-          </v-table>
-          <!-- </v-row> -->
-          <v-row>
-            <PayPalButton />
+      <v-container fluid ma-0 pa-0 fill-height>
+        <v-row>
+          <v-col cols="9">
+            <p>
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus pretium vestibulum
+              vestibulum. Phasellus semper posuere massa. Proin eu sem a mi cursus elementum. Etiam
+              sed urna ut orci laoreet rutrum. Curabitur vel ultrices diam. Duis et blandit lacus.
+              Duis pellentesque a ipsum vel maximus. Ut ligula dolor, finibus at urna a, luctus
+              elementum turpis.<br />
+            </p>
+            <p>
+              Vestibulum suscipit consectetur erat, at lacinia risus ullamcorper cursus. Suspendisse
+              a augue est. Etiam ut lacus id erat ultrices scelerisque ut ac enim. Praesent in
+              placerat justo, et porttitor dui. Nam id sodales enim. Quisque gravida ex lectus, quis
+              molestie purus mollis ac. Cras dui ligula, cursus in pharetra vel, rhoncus sit amet
+              dolor. Maecenas eu viverra est. Aliquam id neque eu massa rhoncus tempus eu consequat
+              eros. Etiam orci eros, consectetur in malesuada nec, volutpat a libero.<br />
+            </p>
+            <p>
+              Ut sagittis elit vitae magna elementum, a feugiat risus egestas. Interdum et malesuada
+              fames ac ante ipsum primis in faucibus. Duis scelerisque quam a gravida vestibulum.
+              Pellentesque vitae tellus lobortis purus aliquet rutrum. Sed ut euismod leo. Cras eu
+              molestie neque. Nullam sed metus tincidunt, finibus magna eu, malesuada felis. Lorem
+              ipsum dolor sit amet, consectetur adipiscing elit. Nulla ac arcu leo.<br />
+            </p>
+          </v-col>
+          <v-col>
             <MeteoCard v-if="lat" :message="date" :lat="lat" :lon="lon"></MeteoCard>
-          </v-row>
+          </v-col>
+        </v-row>
+      </v-container>
+    </div>
+
+    <v-container fluid>
+      <v-row v-for="item in tickets" :key="item.id" justify="center" allign-content="center">
+        <v-col allign-content="center">
+          {{ item.name }}
+        </v-col>
+
+        <v-col allign-self="center">
+          {{ item.price }}
+        </v-col>
+
+        <v-col allign-self="center">
+          <v-btn color="success" @click="addToCart(item)"> Add to Cart </v-btn>
+          <v-btn color="success" @click="addToCart(item)"> Remove from Cart </v-btn>
         </v-col>
       </v-row>
     </v-container>
+
+    <v-row>
+      <PayPalButton />
+    </v-row>
+
+    <MapCard v-if="lat" :lat="lat" :lon="lon" />
+    <div style="height: 10px"></div>
   </div>
-  <MapCard v-if="lat" :lat="lat" :lon="lon" />
-  <div style="height: 10px"></div>
 </template>
 
 <script>
@@ -95,7 +94,8 @@ export default {
     date: null,
     image: null,
     name: null,
-    tickets: null
+    tickets: null,
+    cart: []
   }),
   computed: {},
   async mounted() {
@@ -122,3 +122,9 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+.adjust-tickets {
+  justify-content: space-between;
+}
+</style>
