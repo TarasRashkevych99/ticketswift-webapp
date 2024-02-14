@@ -5,13 +5,18 @@
 </template>
 
 <script>
+import axios from 'axios'
+
 export default {
   name: 'TagsList',
-  props: ['cart', 'discount'],
+  props: ['cart', 'event', 'coupon'],
   data: () => ({}),
   computed: {},
   mounted() {
     this.payPalSetup()
+    console.log('Cart ' + this.cart)
+    console.log('Event Id ' + this.event)
+    console.log('Coupon ' + this.coupon)
   },
   methods: {
     payPalSetup() {
@@ -24,33 +29,24 @@ export default {
           },
 
           async createOrder() {
+            console.log('Cart ' + this.cart)
+            console.log('Event Id ' + this.event)
+            console.log('Coupon ' + this.coupon)
             try {
-              const response = await fetch('/api/orders', {
-                method: 'POST',
-                headers: {
-                  'Content-Type': 'application/json'
-                },
-                // use the "body" param to optionally pass additional order information
-                // like product ids and quantities
-                body: JSON.stringify({
-                  /*cart: [
-                    {
-                      event_id: '65a2b1f19780411fd46fa864',
-                      ticket_id: '65a2b1f978041123d46fa864',
-                      quantity: '2'
-                    },
-                    {
-                      event_id: '65a2b1f19780411fd46fa864',
-                      ticket_id: '65a2b1f978041123d46fa865',
-                      quantity: '1'
-                    }
-                  ],*/
+              const response = await axios.post(
+                `http://localhost:5000/api/purchases/`,
+                {
                   cart: this.cart,
-                  coupon: ''
-                })
-              })
+                  event_id: this.event,
+                  coupon: this.coupon
+                },
+                {
+                  withCredentials: true
+                }
+              )
 
-              const orderData = await response.json()
+              const orderData = await response.data
+              console.log(orderData)
 
               if (orderData.id) {
                 return orderData.id
@@ -70,12 +66,12 @@ export default {
 
           async onApprove(data, actions) {
             try {
-              const response = await fetch(`/api/orders/${data.orderID}/capture`, {
-                method: 'POST',
-                headers: {
-                  'Content-Type': 'application/json'
+              const response = await axios.post(
+                `http://localhost:5000/api/purchases/${data.orderID}/capture`,
+                {
+                  withCredentials: true
                 }
-              })
+              )
 
               const orderData = await response.json()
               // Three cases to handle:
