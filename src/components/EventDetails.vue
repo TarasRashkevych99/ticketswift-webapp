@@ -128,7 +128,7 @@
             class="discount-form"
           ></v-text-field>
           <v-btn variant="tonal" color="primary" class="discount-button"> Apply </v-btn>
-          <PayPalButton :discount="discount" />
+          <PayPalButton :cart="cart" :event="eventId" :coupon="coupon" />
         </v-card-actions>
       </v-card>
     </div>
@@ -160,7 +160,8 @@ export default {
     name: null,
     tickets: null,
     cart: new Map(),
-    discount: null
+    eventId: null,
+    coupon: ''
   }),
   computed: {},
   async mounted() {
@@ -186,9 +187,9 @@ export default {
       for (let ticket of this.tickets) {
         this.cart.set(ticket._id, 0)
       }
+      this.eventId = this.event._id
     },
     addToCart(item) {
-      console.log(this.cart)
       this.cart.set(item._id, this.cart.get(item._id) + 1)
       console.log(item._id + ': ' + this.cart.get(item._id))
     },
