@@ -9,13 +9,39 @@ import axios from 'axios'
 
 export default {
   name: 'TagsList',
-  props: ['cart', 'event', 'coupon'],
+  props: {
+    cart: {
+      type: Map,
+      required: true
+    },
+    eventId: {
+      type: String,
+      required: true
+    },
+    coupon: {
+      type: String,
+      default: null
+    }
+  },
   data: () => ({}),
   computed: {},
+  watch: {
+    cart: {
+      handler: function (newCart) {
+        console.log('Cart updated: ' + newCart)
+      },
+      deep: true
+    },
+    coupon: {
+      handler: function (newCoupon) {
+        console.log('Coupon updated: ' + newCoupon)
+      }
+    }
+  },
   mounted() {
     this.payPalSetup()
     console.log('Cart ' + this.cart)
-    console.log('Event Id ' + this.event)
+    console.log('Event Id ' + this.eventId)
     console.log('Coupon ' + this.coupon)
   },
   methods: {
@@ -30,14 +56,14 @@ export default {
 
           async createOrder() {
             console.log('Cart ' + this.cart)
-            console.log('Event Id ' + this.event)
+            console.log('Event Id ' + this.eventId)
             console.log('Coupon ' + this.coupon)
             try {
               const response = await axios.post(
                 `http://localhost:5000/api/purchases/`,
                 {
                   cart: this.cart,
-                  event_id: this.event,
+                  event_id: this.eventId,
                   coupon: this.coupon
                 },
                 {

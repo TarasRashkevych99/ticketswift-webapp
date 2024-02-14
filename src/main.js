@@ -14,6 +14,7 @@ import GeolocationPage from './components/GeolocationPage.vue'
 import usersApi from './api/users.service'
 import authenticationApi from './api/auth.service'
 import forecastApi from './api/forecast.service'
+import couponsApi from './api/coupons.service'
 
 loadFonts()
 
@@ -22,7 +23,8 @@ const app = createApp(App)
 app.config.globalProperties.apiService = {
   usersApi: usersApi,
   authenticationApi: authenticationApi,
-  forecastApi: forecastApi
+  forecastApi: forecastApi,
+  couponsApi: couponsApi
 }
 
 const routes = [

@@ -122,13 +122,24 @@
         </v-card-text>
         <v-card-actions>
           <v-text-field
-            v-model="discount"
-            label="Discount"
+            v-model="coupon"
+            label="Coupon"
             variant="solo"
             class="discount-form"
+            :disabled="couponAccepted"
           ></v-text-field>
-          <v-btn variant="tonal" color="primary" class="discount-button"> Apply </v-btn>
-          <PayPalButton :cart="cart" :event="eventId" :coupon="coupon" />
+          <v-btn
+            variant="tonal"
+            :disabled="coupon == null || coupon == '' || couponAccepted"
+            :loading="applyingCoupon"
+            :color="couponDeclined ? 'red' : 'primary'"
+            class="discount-button"
+            @click="applyCoupon()"
+          >
+            Apply
+            <v-icon v-if="buttonStatus" end :icon="buttonStatus"></v-icon>
+          </v-btn>
+          <PayPalButton v-if="eventId" :cart="cart" :event-id="eventId" :coupon="coupon" />
         </v-card-actions>
       </v-card>
     </div>
@@ -161,11 +172,17 @@ export default {
     tickets: null,
     cart: new Map(),
     eventId: null,
-    coupon: ''
+    coupon: null,
+    buttonStatus: null,
+    acceptIcon: 'mdi-checkbox-marked-circle',
+    declineIcon: 'mdi-cancel',
+    applyingCoupon: null,
+    couponAccepted: null,
+    couponDeclined: null
   }),
   computed: {},
   async mounted() {
-    this.load()
+    return this.load()
   },
   methods: {
     load: async function () {
@@ -196,6 +213,23 @@ export default {
     removeFromCart(item) {
       this.cart.set(item._id, this.cart.get(item._id) - 1)
       console.log(item._id + ': ' + this.cart.get(item._id))
+    },
+    applyCoupon() {
+      this.applyingCoupon = true
+      this.apiService.couponsApi
+        .applyCoupon(this.coupon)
+        .then((res) => {
+          console.log(res)
+          this.buttonStatus = this.acceptIcon
+          this.couponAccepted = true
+          this.applyingCoupon = false
+        })
+        .catch((err) => {
+          console.log(err)
+          this.buttonStatus = this.declineIcon
+          this.couponDeclined = true
+          this.applyingCoupon = false
+        })
     }
   }
 }
