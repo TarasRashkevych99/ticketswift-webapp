@@ -3,7 +3,13 @@
     <v-sheet width="300" class="mx-auto">
       <v-form fast-fail @submit.prevent>
         <v-text-field v-model="email" label="Email"></v-text-field>
-        <v-text-field v-model="password" label="Password"></v-text-field>
+        <v-text-field
+          v-model="password"
+          label="Password"
+          :append-inner-icon="visible ? 'mdi-eye-off' : 'mdi-eye'"
+          :type="visible ? 'text' : 'password'"
+          @click:append-inner="visible = !visible"
+        ></v-text-field>
         <v-alert v-if="errorMessage" closable type="error" @click:close="clear()">
           {{ errorMessage }}
         </v-alert>
@@ -20,7 +26,8 @@ export default {
   data: () => ({
     email: null,
     password: null,
-    errorMessage: null
+    errorMessage: null,
+    visible: false
   }),
   computed: {},
   mounted() {},
