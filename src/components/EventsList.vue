@@ -11,6 +11,7 @@
             single-line
             hide-details
             clearable
+            @click:clear="search = ''"
             @input="eventSearch()"
           ></v-text-field>
         </v-card-text>
