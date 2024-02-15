@@ -8,7 +8,7 @@
 import axios from 'axios'
 
 export default {
-  name: 'TagsList',
+  name: 'PayPalButton',
   props: {
     cart: {
       type: Map,
@@ -28,7 +28,7 @@ export default {
   watch: {
     cart: {
       handler: function (newCart) {
-        console.log('Cart updated: ' + newCart)
+        console.log('Cart updated: ' + JSON.stringify(Object.fromEntries(newCart)))
       },
       deep: true
     },
@@ -54,17 +54,17 @@ export default {
             layout: 'vertical' //default value. Can be changed to horizontal
           },
 
-          async createOrder() {
-            console.log('Cart ' + this.cart)
-            console.log('Event Id ' + this.eventId)
-            console.log('Coupon ' + this.coupon)
+          createOrder: async (data, actions) => {
+            //console.log('Cart ' + JSON.stringify(Object.fromEntries(this.cart)))
+            //console.log('Event Id ' + this.eventId)
+            //console.log('Coupon ' + this.coupon)
             try {
               const response = await axios.post(
                 `http://localhost:5000/api/purchases/`,
                 {
-                  cart: this.cart,
+                  cart: Object.fromEntries(this.cart),
                   event_id: this.eventId,
-                  coupon: this.coupon
+                  coupon: this.coupons
                 },
                 {
                   withCredentials: true
@@ -86,14 +86,15 @@ export default {
               }
             } catch (error) {
               console.error(error)
-              // resultMessage(`Could not initiate PayPal Checkout...<br><br>${error}`)
             }
           },
 
-          async onApprove(data, actions) {
+          onApprove: async (data, actions) => {
             try {
+              console.log('Event Id ' + this.eventId)
               const response = await axios.post(
                 `http://localhost:5000/api/purchases/${data.orderID}/capture`,
+                {},
                 {
                   withCredentials: true
                 }
@@ -108,15 +109,18 @@ export default {
               const errorDetail = orderData?.details?.[0]
 
               if (errorDetail?.issue === 'INSTRUMENT_DECLINED') {
+                console.log('Instrument Declined')
                 // (1) Recoverable INSTRUMENT_DECLINED -> call actions.restart()
                 // recoverable state, per https://developer.paypal.com/docs/checkout/standard/customize/handle-funding-failures/
                 return actions.restart()
               } else if (errorDetail) {
+                console.log('Non recoverable error')
                 // (2) Other non-recoverable errors -> Show a failure message
                 throw new Error(`${errorDetail.description} (${orderData.debug_id})`)
               } else if (!orderData.purchase_units) {
                 throw new Error(JSON.stringify(orderData))
               } else {
+                console.log('Successful Transaction')
                 // (3) Successful transaction -> Show confirmation or thank you message
                 // Or go to another URL:  actions.redirect('thank_you.html');
 
