@@ -100,7 +100,8 @@ export default {
                 }
               )
 
-              const orderData = await response.json()
+              //console.log('CIAO' + response.data)
+              const orderData = response.data
               // Three cases to handle:
               //   (1) Recoverable INSTRUMENT_DECLINED -> call actions.restart()                  (Metodo di pagamento rifiutato)
               //   (2) Other non-recoverable errors -> Show a failure message
@@ -126,7 +127,8 @@ export default {
 
                 // Redirect setup page: https://www.sandbox.paypal.com/businessmanage/preferences/website#
                 // return actions.redirect('https://developer.paypal.com/docs/checkout/standard/customize/single-page-app/#vue');
-                window.location.href = 'thank_you.html'
+                //window.location.href = 'thank_you.html'
+
                 // const transaction =
                 //   orderData?.purchase_units?.[0]?.payments?.captures?.[0] ||
                 //   orderData?.purchase_units?.[0]?.payments?.authorizations?.[0]
@@ -135,6 +137,13 @@ export default {
                 //   `Transaction ${transaction.status}: ${transaction.id}<br><br>See console for all available details`
                 // )
                 console.log('Capture result', orderData, JSON.stringify(orderData, null, 2))
+
+                // TODO Prima di fare il redirect devo passare dei dati (info sul pagamento + nuovo coupon). Potrei usare sessionStorage
+                /*
+                return actions.redirect(
+                  'https://developer.paypal.com/docs/checkout/standard/customize/single-page-app/#vue'
+                )
+                */
               }
             } catch (error) {
               console.error(error)
@@ -146,7 +155,17 @@ export default {
             // Se chiudo la pagina di paypal prima di concludere l'acquisto
 
             console.log('Cancellato')
-            console.log('Ordine numero: ' + data.orderID) // TODO Modifico lo stato del pagamento, impostandolo a cancellato
+            console.log(data)
+            console.log('Ordine numero: ' + data.orderID)
+            const response = await axios.post(
+              `http://localhost:5000/api/purchases/cancel`,
+              {
+                id: data.orderID
+              },
+              {
+                withCredentials: true
+              }
+            )
           }
         })
         .render('#paypal-button-container')
