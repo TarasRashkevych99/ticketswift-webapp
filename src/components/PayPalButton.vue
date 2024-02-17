@@ -54,6 +54,7 @@ export default {
             layout: 'vertical' //default value. Can be changed to horizontal
           },
 
+          // eslint-disable-next-line no-unused-vars
           createOrder: async (data, actions) => {
             //console.log('Cart ' + JSON.stringify(Object.fromEntries(this.cart)))
             //console.log('Event Id ' + this.eventId)
