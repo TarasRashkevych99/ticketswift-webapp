@@ -5,7 +5,7 @@
         <v-card-title v-if="purchaseData">
           Payment Details: o.n. {{ purchaseData.payPalId }}
         </v-card-title>
-        <v-card-text>
+        <v-card-text v-if="purchaseData">
           <p v-if="errorMessage !== null">{{ errorMessage }}</p>
           <p>Total Price: {{ purchaseData.price }}</p>
           <p>Cart:</p>
