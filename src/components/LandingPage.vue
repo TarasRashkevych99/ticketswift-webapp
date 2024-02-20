@@ -72,7 +72,7 @@ export default {
       this.purchaseData = purchase.purchaseDetails
       this.eventId = this.purchaseData.cart[0].eventId
 
-      const event = await this.apiService.eventsApi.getEventById('65c3605ba8f4a309a5b0621a')
+      const event = await this.apiService.eventsApi.getEventById(this.eventId)
       console.log(event)
       this.lat = event[0].location.coordinates.latitude
       this.lon = event[0].location.coordinates.longitude

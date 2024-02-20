@@ -124,8 +124,6 @@ export default {
 
                 console.log('Capture result', orderData, JSON.stringify(orderData, null, 2))
 
-                // eslint-disable-next-line no-debugger
-                debugger
                 console.log(orderData)
                 if (orderData.couponId) {
                   this.$router.push(
