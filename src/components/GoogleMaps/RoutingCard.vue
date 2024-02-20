@@ -66,18 +66,6 @@ export default {
         ',' +
         this.lon +
         '&travelmode=driving'
-    },
-    setUpUrl() {
-      this.googleMapsURL =
-        'https://www.google.com/maps/dir/?api=1&origin=' +
-        sessionStorage.getItem('latitude') +
-        ',' +
-        sessionStorage.getItem('longitude') +
-        '&destination=' +
-        this.lat +
-        ',' +
-        this.lon +
-        '&travelmode=driving'
     }
   }
 }
