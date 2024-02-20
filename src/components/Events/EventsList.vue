@@ -11,7 +11,7 @@
             single-line
             hide-details
             clearable
-            @click:clear="search = ''"
+            @click:clear="clearSearch()"
             @input="eventSearch()"
           ></v-text-field>
         </v-card-text>
@@ -88,6 +88,10 @@ export default {
       console.log(this.search)
       await this.getEvents()
     }, 400),
+    async clearSearch() {
+      this.search = ''
+      await this.getEvents()
+    },
     async getEvents() {
       console.log(
         `http://localhost:5000/api/events?keyword=${this.search}${this.dateFilter}${this.locationFilter}${this.genreFilter}`
