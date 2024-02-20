@@ -1,8 +1,10 @@
 <template>
-  <v-card class="mx-auto" width="70%" height="35%" style="margin-top: 2rem; margin-bottom: 1rem">
-    <div style="margin-bottom: 0.1rem">APRI SU <a :href="`${googleMapsURL}`"> GOOGLE MAPS </a></div>
+  <div>
+    <p style="text-align: center; margin-bottom: 1rem; font-weight: 600">
+      APRI SU <a :href="`${googleMapsURL}`"> GOOGLE MAPS </a>
+    </p>
     <div id="map"></div>
-  </v-card>
+  </div>
 </template>
 
 <script>
@@ -10,6 +12,8 @@ export default {
   name: 'RoutingCard',
   props: ['lat', 'lon'],
   data: () => ({
+    currentLat: null,
+    currentLon: null,
     googleMapsURL: ''
   }),
   computed: {},
@@ -31,13 +35,14 @@ export default {
 
       directionsRenderer.setMap(map)
       this.calculateAndDisplayRoute(directionsService, directionsRenderer)
+      this.setUpUrl()
     },
     calculateAndDisplayRoute(directionsService, directionsRenderer) {
       directionsService
         .route({
           origin: {
-            lat: 41.87,
-            lng: -87.65
+            lat: Number(sessionStorage.getItem('latitude')),
+            lng: Number(sessionStorage.getItem('longitude'))
           },
           destination: {
             lat: Number(this.lat),
@@ -61,6 +66,18 @@ export default {
         ',' +
         this.lon +
         '&travelmode=driving'
+    },
+    setUpUrl() {
+      this.googleMapsURL =
+        'https://www.google.com/maps/dir/?api=1&origin=' +
+        sessionStorage.getItem('latitude') +
+        ',' +
+        sessionStorage.getItem('longitude') +
+        '&destination=' +
+        this.lat +
+        ',' +
+        this.lon +
+        '&travelmode=driving'
     }
   }
 }
@@ -68,6 +85,17 @@ export default {
 
 <style scoped>
 #map {
-  height: 100%;
+  height: 500px;
+  width: 1000px;
+  margin: auto;
+  /* position: relative;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 1000px;
+  padding-bottom: 10px; */
 }
+/* #map {
+  height: 100%;
+} */
 </style>

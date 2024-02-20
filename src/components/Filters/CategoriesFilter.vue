@@ -26,7 +26,7 @@
 
 <script>
 export default {
-  name: 'DateFilter',
+  name: 'CategoriesFilter',
   emits: ['update-genreFilter'],
   data: () => ({
     min: 0,

@@ -2,24 +2,27 @@
   <v-container>
     <v-form>
       <v-container>
-        <v-row>
+        <v-row class="align-range">
           <v-col cols="12" sm="5">
             <v-text-field
               v-model="address"
               label="Location"
               append-inner-icon="mdi-map-marker"
               variant="outlined"
+              class="adjust-height"
             ></v-text-field>
           </v-col>
-          <v-col cols="12" sm="1">
+          <v-col cols="12" sm="2">
             <v-btn
               :disabled="!isMyCurrentLocationAvailable"
               :loading="isInitialLoading"
               block
               class="mt-2"
               @click="useMyCurrentLocation()"
-              >My Location</v-btn
             >
+              My Location
+            </v-btn>
+            <v-btn color="success" @click="getLatLng"> Selected Location </v-btn>
           </v-col>
           <v-col cols="12" sm="4">
             <v-slider
@@ -44,9 +47,6 @@
               </template>
             </v-slider>
           </v-col>
-          <v-col cols="12" sm="2">
-            <v-btn color="success" @click="getLatLng"> Filter </v-btn>
-          </v-col>
         </v-row>
       </v-container>
     </v-form>
@@ -57,7 +57,7 @@
 import axios from 'axios'
 
 export default {
-  name: 'DateFilter',
+  name: 'RangeFilter',
   emits: ['update-locationFilter'],
   data: () => ({
     min: 0,
@@ -126,4 +126,12 @@ export default {
 }
 </script>
 
-<style scoped></style>
+<style scoped>
+.align-range {
+  display: flex;
+  align-items: center;
+}
+.adjust-height {
+  height: 43px;
+}
+</style>
