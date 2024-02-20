@@ -15,14 +15,12 @@
             </li>
           </ul>
           <p v-if="couponId">CouponId: {{ couponId }}</p>
-          <ul>
+          <ul v-if="couponId && couponData">
             <li class="cart-item">
-              <p v-if="couponId">Code: {{ couponData.code }}</p>
+              <p>Code: {{ couponData.code }}</p>
             </li>
             <li class="cart-item">
-              <p v-if="couponId">
-                Amount: {{ couponData.amount }} {{ couponData.isPercentage ? '%' : '' }}
-              </p>
+              <p>Amount: {{ couponData.amount }} {{ couponData.isPercentage ? '%' : '' }}</p>
             </li>
           </ul>
         </v-card-text>
