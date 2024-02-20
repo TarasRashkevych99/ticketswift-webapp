@@ -105,6 +105,6 @@ export default {
 
 <style>
 .temperature {
-  font-size: 2.6rem;
+  font-size: 2rem;
 }
 </style>

@@ -133,7 +133,7 @@
         </v-card-actions>
       </v-card>
     </div>
-    <!-- <MapCard v-if="lat" :lat="lat" :lon="lon" /> -->
+    <MapCard v-if="lat" :lat="lat" :lon="lon" />
     <div style="height: 10px"></div>
   </div>
 </template>
@@ -141,14 +141,14 @@
 <script>
 import axios from 'axios'
 import EventMeteoPage from './EventMeteoPage.vue'
-// import MapCard from '@/components/GoogleMaps/MapCard.vue'
+import MapCard from '@/components/GoogleMaps/MapCard.vue'
 import PayPalButton from '@/components/PayPalButton.vue'
 
 export default {
   name: 'EventDetails',
   components: {
     EventMeteoPage,
-    // MapCard,
+    MapCard,
     PayPalButton
   },
   data: () => ({
