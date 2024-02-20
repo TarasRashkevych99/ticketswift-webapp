@@ -25,6 +25,7 @@ export default {
   methods: {
     /* eslint-disable no-undef */
     initMap() {
+      this.setUpUrl()
       const directionsService = new google.maps.DirectionsService()
       const directionsRenderer = new google.maps.DirectionsRenderer()
       const map = new google.maps.Map(document.getElementById('map'), {
@@ -53,6 +54,18 @@ export default {
           directionsRenderer.setDirections(response)
         })
         .catch((e) => window.alert('Directions request failed due to ' + e))
+    },
+    setUpUrl() {
+      this.googleMapsURL =
+        'https://www.google.com/maps/dir/?api=1&origin=' +
+        sessionStorage.getItem('latitude') +
+        ',' +
+        sessionStorage.getItem('longitude') +
+        '&destination=' +
+        this.lat +
+        ',' +
+        this.lon +
+        '&travelmode=driving'
     },
     setUpUrl() {
       this.googleMapsURL =
