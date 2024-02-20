@@ -9,8 +9,6 @@ RUN apt-get update && \
 
 RUN git clone https://github.com/TarasRashkevych99/ticketswift-webapp.git .
 
-RUN git checkout feature/paypal
-
 RUN npm install
 
 EXPOSE 3000
