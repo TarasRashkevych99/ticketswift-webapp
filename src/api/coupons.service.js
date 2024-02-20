@@ -4,8 +4,13 @@ function applyCoupon(coupon) {
   return apiService.post('/coupons/apply', { code: coupon })
 }
 
+function getCoupon(couponId) {
+  return apiService.get(`/coupons/${couponId}`)
+}
+
 const couponsApi = {
-  applyCoupon
+  applyCoupon,
+  getCoupon
 }
 
 export default couponsApi

@@ -19,7 +19,7 @@
 
       <DateFilter @update-date-filter="handleDateFilter" />
       <RangeFilter @update-location-filter="handleLocationFilter"></RangeFilter>
-      <Categories @update-genre-filter="handleGenreFilter"></Categories>
+      <CategoriesFilter @update-genre-filter="handleGenreFilter"></CategoriesFilter>
 
       <div v-for="event in events" :key="event._id">
         <v-card :href="`http://localhost:3000/events/${event._id}`">
@@ -60,13 +60,13 @@
 <script>
 import axios from 'axios'
 import _ from 'lodash'
-import DateFilter from './DateFilter.vue'
-import RangeFilter from './RangeFilter.vue'
-import Categories from './Categories.vue'
+import DateFilter from '@/components/Filters/DateFilter.vue'
+import RangeFilter from '@/components/Filters/RangeFilter.vue'
+import CategoriesFilter from '@/components/Filters/CategoriesFilter.vue'
 
 export default {
   name: 'EventsList',
-  components: { DateFilter, RangeFilter, Categories },
+  components: { DateFilter, RangeFilter, CategoriesFilter },
   data: () => ({
     events: null,
     eventsResponse: null,

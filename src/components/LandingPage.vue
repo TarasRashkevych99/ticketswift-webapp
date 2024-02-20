@@ -1,73 +1,98 @@
 <template>
-  <v-container>
-    <v-col cols="12">
-      <v-card class="mx-auto" color="grey-lighten-5" max-width="400">
+  <div>
+    <v-container>
+      <v-card class="mx-auto" color="grey-lighten-5" max-width="600">
+        <v-card-title v-if="purchaseData">
+          Payment Details: o.n. {{ purchaseData.payPalId }}
+        </v-card-title>
         <v-card-text>
-          <v-text-field
-            v-model="search"
-            density="compact"
-            variant="solo"
-            label="Search events"
-            single-line
-            hide-details
-            clearable
-            @click:clear="search = ''"
-            @input="eventSearch()"
-          ></v-text-field>
+          <p v-if="errorMessage !== null">{{ errorMessage }}</p>
+          <p>Total Price: {{ purchaseData.price }}</p>
+          <p>Cart:</p>
+          <ul>
+            <li v-for="item of purchaseData.cart" :key="item.ticketId" class="cart-item">
+              {{ item.ticketId }} x{{ item.quantity }}
+            </li>
+          </ul>
+          <p v-if="couponId">CouponId: {{ couponId }}</p>
+          <ul>
+            <li class="cart-item">
+              <p v-if="couponId">Code: {{ couponData.code }}</p>
+            </li>
+            <li class="cart-item">
+              <p v-if="couponId">
+                Amount: {{ couponData.amount }} {{ couponData.isPercentage ? '%' : '' }}
+              </p>
+            </li>
+          </ul>
         </v-card-text>
+        <v-card-actions>
+          <v-btn type="submit" block class="mt-2" color="primary" @click="goHome()">Home</v-btn>
+        </v-card-actions>
       </v-card>
-
-      <DateFilter @update-date-filter="handleDateFilter" />
-      <RangeFilter @update-location-filter="handleLocationFilter"></RangeFilter>
-      <Categories @update-genre-filter="handleGenreFilter"></Categories>
-
-      <div v-for="event in events" :key="event._id">
-        <v-card :href="`http://localhost:3000/events/${event._id}`">
-          <div class="d-flex flex-no-wrap">
-            <v-avatar class="ma-3" size="150" rounded="lg">
-              <v-img v-if="event.image" :src="`${event.image}`"></v-img>
-              <v-img v-else src="https://cdn.vuetifyjs.com/images/cards/halcyon.png"></v-img>
-            </v-avatar>
-
-            <div class="text-left">
-              <v-card-title class="text-h5"> {{ event.name }} </v-card-title>
-
-              <v-card-subtitle>
-                <v-icon icon="mdi-calendar-range" color="primary"></v-icon>
-                {{ dateToString(event.date) }}
-              </v-card-subtitle>
-              <v-card-subtitle>
-                <v-icon icon="mdi-currency-eur" color="primary"></v-icon>
-                From: {{ event.tickets[0].price }} €
-              </v-card-subtitle>
-              <v-card-subtitle>
-                <v-icon icon="mdi-map-marker" color="primary"></v-icon>
-                {{ event.location.city }}, {{ event.location.country }}
-              </v-card-subtitle>
-              <v-card-subtitle v-if="event.artist">
-                <v-icon icon="mdi-account" color="primary"></v-icon>
-                {{ event.artist.name }}
-              </v-card-subtitle>
-            </div>
-          </div>
-        </v-card>
-        <br />
-      </div>
-    </v-col>
-  </v-container>
+    </v-container>
+    <RoutingCard v-if="lat && lon" :lat="lat" :lon="lon" />
+  </div>
 </template>
 
 <script>
+import RoutingCard from '@/components/GoogleMaps/RoutingCard.vue'
+
 export default {
   name: 'LandingPage',
-  components: {},
+  components: {
+    RoutingCard
+  },
   data: () => ({
-    coupon: null
+    orderId: null,
+    couponId: null,
+    eventId: null,
+    couponData: null,
+    purchaseData: null,
+    lat: null,
+    lon: null,
+    errorMessage: null
   }),
   computed: {},
-  mounted() {},
-  methods: {}
+  async created() {
+    this.orderId = this.$route.query.orderId
+    console.log(this.$route.query.couponId)
+    this.couponId = this.$route.query.couponId
+    console.log(this.couponId)
+
+    if (this.couponId) {
+      try {
+        const coupon = await this.apiService.couponsApi.getCoupon(this.couponId)
+        this.couponData = coupon.couponDetails
+      } catch (error) {
+        console.log(error)
+      }
+    }
+
+    try {
+      const purchase = await this.apiService.purchasesApi.getPurchase(this.orderId)
+      this.purchaseData = purchase.purchaseDetails
+      this.eventId = this.purchaseData.cart[0].eventId
+
+      const event = await this.apiService.eventsApi.getEventById('65c3605ba8f4a309a5b0621a')
+      console.log(event)
+      this.lat = event[0].location.coordinates.latitude
+      this.lon = event[0].location.coordinates.longitude
+    } catch (error) {
+      console.log(error)
+      this.errorMessage = error.message
+    }
+  },
+  methods: {
+    goHome() {
+      this.$router.push('/')
+    }
+  }
 }
 </script>
 
-<style scoped></style>
+<style scoped>
+.cart-item {
+  margin-left: 2rem;
+}
+</style>

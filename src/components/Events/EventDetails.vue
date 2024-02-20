@@ -8,12 +8,6 @@
         <v-img v-if="image" :src="event.image" :title="name"></v-img>
         <v-img v-else src="https://cdn.vuetifyjs.com/images/cards/halcyon.png" title=""></v-img>
       </v-card>
-
-      <!-- <h1>Dettagli dell'evento {{ $route.params.eventId }}</h1> -->
-      <!-- <h3>Name: {{ name }}</h3> -->
-      <!-- <MeteoCard :message="'2024-01-26'" :lat="46.14675" :lon="12.21324"></MeteoCard> -->
-      <!-- <MeteoCard v-if="lat" :message="'2024-02-10'" :lat="lat" :lon="lon"></MeteoCard> -->
-
       <v-container fluid ma-0 pa-0 fill-height>
         <v-row>
           <v-col cols="9">
@@ -41,7 +35,7 @@
             </p>
           </v-col>
           <v-col>
-            <MeteoCard v-if="lat" :message="date" :lat="lat" :lon="lon"></MeteoCard>
+            <EventMeteoPage v-if="lat" :message="date" :lat="lat" :lon="lon"></EventMeteoPage>
           </v-col>
         </v-row>
       </v-container>
@@ -85,10 +79,6 @@
         </v-col>
       </v-row>
     </v-container>
-
-    <!-- <v-row class="column-cell">
-      <PayPalButton />
-    </v-row> -->
     <div style="margin-top: 50px"></div>
     <div class="payment-card">
       <v-card>
@@ -150,14 +140,14 @@
 
 <script>
 import axios from 'axios'
-import MeteoCard from './MeteoPage.vue'
-// import MapCard from './GoogleMaps/MapCard.vue'
-import PayPalButton from './PayPalButton.vue'
+import EventMeteoPage from './EventMeteoPage.vue'
+// import MapCard from '@/components/GoogleMaps/MapCard.vue'
+import PayPalButton from '@/components/PayPalButton.vue'
 
 export default {
-  name: 'TicketSwift',
+  name: 'EventDetails',
   components: {
-    MeteoCard,
+    EventMeteoPage,
     // MapCard,
     PayPalButton
   },

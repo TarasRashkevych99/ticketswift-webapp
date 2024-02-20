@@ -28,7 +28,7 @@
 
 <script>
 export default {
-  name: 'MeteoPage',
+  name: 'EventMeteoPage',
   props: ['message', 'lat', 'lon'],
   data: () => ({
     iconCode: {

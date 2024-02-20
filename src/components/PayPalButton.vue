@@ -50,15 +50,11 @@ export default {
         .Buttons({
           style: {
             shape: 'pill',
-            //color:'blue', change the default color of the buttons
             layout: 'vertical' //default value. Can be changed to horizontal
           },
 
           // eslint-disable-next-line no-unused-vars
           createOrder: async (data, actions) => {
-            //console.log('Cart ' + JSON.stringify(Object.fromEntries(this.cart)))
-            //console.log('Event Id ' + this.eventId)
-            //console.log('Coupon ' + this.coupon)
             try {
               const response = await axios.post(
                 `http://localhost:5000/api/purchases/`,
@@ -100,8 +96,6 @@ export default {
                   withCredentials: true
                 }
               )
-
-              //console.log('CIAO' + response.data)
               const orderData = response.data
               // Three cases to handle:
               //   (1) Recoverable INSTRUMENT_DECLINED -> call actions.restart()                  (Metodo di pagamento rifiutato)
@@ -126,29 +120,23 @@ export default {
                 // (3) Successful transaction -> Show confirmation or thank you message
                 // Or go to another URL:  actions.redirect('thank_you.html');
 
-                // Redirect setup page: https://www.sandbox.paypal.com/businessmanage/preferences/website#
                 // return actions.redirect('https://developer.paypal.com/docs/checkout/standard/customize/single-page-app/#vue');
-                //window.location.href = 'thank_you.html'
 
-                // const transaction =
-                //   orderData?.purchase_units?.[0]?.payments?.captures?.[0] ||
-                //   orderData?.purchase_units?.[0]?.payments?.authorizations?.[0]
-
-                // resultMessage(
-                //   `Transaction ${transaction.status}: ${transaction.id}<br><br>See console for all available details`
-                // )
                 console.log('Capture result', orderData, JSON.stringify(orderData, null, 2))
 
-                // TODO Prima di fare il redirect devo passare dei dati (info sul pagamento + nuovo coupon). Potrei usare sessionStorage
-                /*
-                return actions.redirect(
-                  'https://developer.paypal.com/docs/checkout/standard/customize/single-page-app/#vue'
-                )
-                */
+                // eslint-disable-next-line no-debugger
+                debugger
+                console.log(orderData)
+                if (orderData.couponId) {
+                  this.$router.push(
+                    `/summary?orderId=${orderData.id}&couponId=${orderData.couponId}`
+                  )
+                } else {
+                  this.$router.push(`/summary?orderId=${orderData.id}`)
+                }
               }
             } catch (error) {
               console.error(error)
-              // resultMessage(`Sorry, your transaction could not be processed...<br><br>${error}`)
             }
           },
 
@@ -158,7 +146,7 @@ export default {
             console.log('Cancellato')
             console.log(data)
             console.log('Ordine numero: ' + data.orderID)
-            const response = await axios.post(
+            await axios.post(
               `http://localhost:5000/api/purchases/cancel`,
               {
                 id: data.orderID

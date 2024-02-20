@@ -1,6 +1,7 @@
 <template>
   <div class="form-container">
     <v-sheet width="300" class="mx-auto">
+      <h2 class="title">Signup</h2>
       <v-form fast-fail @submit.prevent>
         <v-text-field v-model="email" label="Email"></v-text-field>
         <v-text-field
@@ -61,5 +62,9 @@ export default {
   justify-content: center;
   align-items: center;
   min-height: 80vh; /* vh stands for viewport height */
+}
+.title {
+  text-align: center;
+  margin-bottom: 1rem;
 }
 </style>

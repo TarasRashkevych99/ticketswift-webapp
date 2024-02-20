@@ -57,7 +57,7 @@
 import axios from 'axios'
 
 export default {
-  name: 'DateFilter',
+  name: 'RangeFilter',
   emits: ['update-locationFilter'],
   data: () => ({
     min: 0,

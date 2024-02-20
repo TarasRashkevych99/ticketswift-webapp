@@ -7,17 +7,11 @@
 </template>
 
 <script>
-import EventsList from './EventsList.vue'
+import EventsList from '@/components/Events/EventsList.vue'
 export default {
-  name: 'App',
+  name: 'TicketSwift',
   components: {
     EventsList
   }
 }
 </script>
-
-<style scoped>
-/* .v-application {
-  background-color: rgb(15, 23, 42);
-} */
-</style>

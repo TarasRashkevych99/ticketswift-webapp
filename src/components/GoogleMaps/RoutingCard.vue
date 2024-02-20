@@ -1,5 +1,10 @@
 <template>
-  <div id="map"></div>
+  <div>
+    <p style="text-align: center; margin-bottom: 1rem; font-weight: 600">
+      APRI SU <a :href="`${googleMapsURL}`"> GOOGLE MAPS </a>
+    </p>
+    <div id="map"></div>
+  </div>
 </template>
 
 <script>
@@ -8,7 +13,8 @@ export default {
   props: ['lat', 'lon'],
   data: () => ({
     currentLat: null,
-    currentLon: null
+    currentLon: null,
+    googleMapsURL: ''
   }),
   computed: {},
   async mounted() {
@@ -28,6 +34,7 @@ export default {
 
       directionsRenderer.setMap(map)
       this.calculateAndDisplayRoute(directionsService, directionsRenderer)
+      this.setUpUrl()
     },
     calculateAndDisplayRoute(directionsService, directionsRenderer) {
       directionsService
@@ -46,6 +53,18 @@ export default {
           directionsRenderer.setDirections(response)
         })
         .catch((e) => window.alert('Directions request failed due to ' + e))
+    },
+    setUpUrl() {
+      this.googleMapsURL =
+        'https://www.google.com/maps/dir/?api=1&origin=' +
+        sessionStorage.getItem('latitude') +
+        ',' +
+        sessionStorage.getItem('longitude') +
+        '&destination=' +
+        this.lat +
+        ',' +
+        this.lon +
+        '&travelmode=driving'
     }
   }
 }
@@ -53,11 +72,17 @@ export default {
 
 <style scoped>
 #map {
-  position: absolute;
+  height: 500px;
+  width: 1000px;
+  margin: auto;
+  /* position: relative;
   left: 0;
   right: 0;
   top: 0;
-  bottom: 100px;
-  padding-bottom: 10px;
+  bottom: 1000px;
+  padding-bottom: 10px; */
 }
+/* #map {
+  height: 100%;
+} */
 </style>

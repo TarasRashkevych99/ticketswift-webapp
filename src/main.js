@@ -6,15 +6,17 @@ import { loadFonts } from './plugins/webfontloader'
 import { createRouter, createWebHistory } from 'vue-router'
 
 import TicketSwift from './components/TicketSwift.vue'
-import LoginPage from './components/LoginPage.vue'
-import SignupPage from './components/SignupPage.vue'
-import EventDatails from './components/EventDetails.vue'
-import GeolocationPage from './components/GeolocationPage.vue'
+import LoginPage from './components/Authentication/LoginPage.vue'
+import SignupPage from './components/Authentication/SignupPage.vue'
+import EventDetails from './components/Events/EventDetails.vue'
+import LandingPage from './components/LandingPage.vue'
 
 import usersApi from './api/users.service'
 import authenticationApi from './api/auth.service'
 import forecastApi from './api/forecast.service'
 import couponsApi from './api/coupons.service'
+import purchasesApi from './api/purchase.service'
+import eventsApi from './api/events.service'
 
 loadFonts()
 
@@ -24,15 +26,17 @@ app.config.globalProperties.apiService = {
   usersApi: usersApi,
   authenticationApi: authenticationApi,
   forecastApi: forecastApi,
-  couponsApi: couponsApi
+  couponsApi: couponsApi,
+  purchasesApi: purchasesApi,
+  eventsApi: eventsApi
 }
 
 const routes = [
   { path: '/', name: 'TicketSwift', component: TicketSwift },
   { path: '/login', name: 'Login', component: LoginPage },
   { path: '/signup', name: 'Signup', component: SignupPage },
-  { path: '/events/:eventId', name: 'eventDetails', component: EventDatails },
-  { path: '/geolocation', name: 'Geolocation', component: GeolocationPage }
+  { path: '/events/:eventId', name: 'EventDetails', component: EventDetails },
+  { path: '/summary', name: 'SummaryPage', component: LandingPage }
 ]
 
 const router = createRouter({
